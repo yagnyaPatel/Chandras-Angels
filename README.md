@@ -1,3 +1,4 @@
+
 # Chandras-Angels
 
 ## Project Summary
@@ -6,7 +7,7 @@ The project is a platform for multiple people to choose a queue of songs based o
 ### Project Overview
 This platform is designed as a solution in social occasions to allow multiple people  to construct a single music queue with a vote-based priority system to reflect the preferences of the group. Users can create "parties," private groups accessible with an invite code. Users within a party will be able to add songs to the queue, and "upvote" or "downvote" existing songs to adjust their position in the queue. The user that created the party is considered the admin user and will have full control over the queue, as well the ability to configure various settings of the party. The admin can specify a backup playlist that will automatically be used in the event that there aren't any user-queued songs.
 
-The platform will be a mobile app developed in React Native. Music selection and playback will be implemented via Spotify. 
+The platform will be a mobile app developed in React Native. Music selection and playback will be implemented via SoundCloud.
 
 ## Installation
 ### Prerequisites
