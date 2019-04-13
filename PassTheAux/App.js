@@ -1,29 +1,38 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { Alert, AppRegistry, Button, StyleSheet, View } from 'react-native';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+export default class ButtonBasics extends Component {
+  _onPressButton() {
+    Alert.alert('You tapped the button!')
+  }
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Chandra's Angels!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="Press Me"
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="Press Me"
+            //color="#841584"
+          />
+        </View>
+        <View style={styles.alternativeLayoutButtonContainer}>
+          <Button
+            onPress={this._onPressButton}
+            title="Test!"
+          />
+          <Button
+            onPress={this._onPressButton}
+            title="OK!"
+            //color="#841584"
+          />
+        </View>
       </View>
     );
   }
@@ -31,19 +40,15 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+   flex: 1,
+   justifyContent: 'center',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  buttonContainer: {
+    margin: 20
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  alternativeLayoutButtonContainer: {
+    margin: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 });
