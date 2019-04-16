@@ -11,9 +11,13 @@ The platform will be a mobile app developed in React Native. Music selection and
 
 ## Installation
 ### Prerequisites
-Currently not available
+- React Native CLI (See React Native's [Getting Started guide](https://facebook.github.io/react-native/docs/getting-started))
+- Android device with USB Debugging enabled, or Android Virtual Device running Android 6
 ### Installation Steps
-Currently not available
+#### Windows
+1. Connect the Android device to your computer using a USB cable or launch the AVD
+2. Open a command prompt window and navigate to the PassTheAux directory
+3. Run the command 'react-native run-android' and the application should launch on the target device.
 ## Functionality and Known Issues
 There is currently no progress.
 
