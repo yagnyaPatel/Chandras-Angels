@@ -1,5 +1,5 @@
-install: gradle assemle
-script: gradle check
+install: ./gradlew assemle
+script: ./gradlew check
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
