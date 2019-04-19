@@ -1,2 +1,4 @@
 language: cpp
-script: ./test/helloworldtest.cpp
+script:
+  - g++ -o helloworldtest /test/helloworldtest.cpp
+  - ./helloworldtest
