@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MunchEase</string>
+    <string name="title_activity_share_party">SharePartyActivity</string>
 </resources>
