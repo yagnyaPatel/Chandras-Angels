@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "787730136881",
+    "firebase_url": "https://munchease-4679b.firebaseio.com",
+    "project_id": "munchease-4679b",
+    "storage_bucket": "munchease-4679b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787730136881:android:4571867588a006cc",
+        "android_client_info": {
+          "package_name": "edu.ucsb.munchease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787730136881-vms2c1og8gq8bdqgcim34k54046hg23j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqLFWrQ0PrZas-2V4KZJs2rf3OtWTJucY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787730136881-vms2c1og8gq8bdqgcim34k54046hg23j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
