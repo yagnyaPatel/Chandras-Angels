@@ -39,4 +39,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_createParty" />
+
 </android.support.constraint.ConstraintLayout>
