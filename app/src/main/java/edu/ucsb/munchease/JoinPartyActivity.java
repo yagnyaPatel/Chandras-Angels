@@ -1,9 +1,11 @@
 package edu.ucsb.munchease;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,6 +17,13 @@ public class JoinPartyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_join_party);
 
         final Button button_next = findViewById(R.id.button_next);
+        button_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToPartyHomeActivity = new Intent(getApplicationContext(), PartyHomeActivity.class);
+                startActivity(goToPartyHomeActivity);
+            }
+        });
 
         EditText editText_joinPartyID = findViewById(R.id.editText_joinPartyID);
         editText_joinPartyID.addTextChangedListener(new TextWatcher() {
