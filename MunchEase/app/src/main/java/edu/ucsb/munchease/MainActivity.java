@@ -21,5 +21,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToSharePartyActivity);
             }
         });
+
+        Button button_joinParty = findViewById(R.id.button_joinParty);
+        button_joinParty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToJoinPartyActivity = new Intent(getApplicationContext(), JoinPartyActivity.class);
+                startActivity(goToJoinPartyActivity);
+            }
+        });
     }
 }
