@@ -2,25 +2,25 @@ package edu.ucsb.munchease;
 
 public class Restaurant {
     private String name;
-    private int rating;
+    private double rating;
     private String address;
     private int votes;
 
     public Restaurant() {
     }
 
-    public Restaurant(String name, int rating, String address, int votes) {
+    public Restaurant(String name, double rating, String address) {
         this.name = name;
         this.rating = rating;
         this.address = address;
-        this.votes = votes;
+        this.votes = 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
