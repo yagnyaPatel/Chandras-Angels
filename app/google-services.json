@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "787730136881-17m4goq6t0nuosq43c5j381on7ui92p4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.munchease",
+            "certificate_hash": "02668a3b3295c4072fefb9dfe913e0520630d909"
+          }
+        },
+        {
           "client_id": "787730136881-vms2c1og8gq8bdqgcim34k54046hg23j.apps.googleusercontent.com",
           "client_type": 3
         }
