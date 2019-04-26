@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         //BUTTON CONFIGURATION
         //------------------------------------------------------------------
 
+        //Make "CREATE" button (button_createParty) take you to the Share Party Activity (SharePartyActivity)
         Button button_createParty = findViewById(R.id.button_createParty);
         button_createParty.setOnClickListener(new View.OnClickListener() {
             @Override

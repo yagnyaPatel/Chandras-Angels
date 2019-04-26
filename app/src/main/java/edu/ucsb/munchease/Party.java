@@ -11,19 +11,19 @@ public class Party {
         members = 0;
     }
 
-    public void addMember() {
-        members++;
-    }
-
-    public void addResturant(Restaurant r) {
-        restaurants.add(r);
-    }
-
     public Vector<Restaurant> getRestaurants() {
         return restaurants;
     }
 
     public int getMembers() {
         return members;
+    }
+
+    public void addMember() {
+        members++;
+    }
+
+    public void addResturant(Restaurant r) {
+        restaurants.add(r);
     }
 }

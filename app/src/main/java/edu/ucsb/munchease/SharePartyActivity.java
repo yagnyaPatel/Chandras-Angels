@@ -13,6 +13,7 @@ public class SharePartyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_party);
 
+        //Make "NEXT" button (button_next) take you to the Party Home Activity (PartyHomeActivity)
         Button button_next = findViewById(R.id.button_next);
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
