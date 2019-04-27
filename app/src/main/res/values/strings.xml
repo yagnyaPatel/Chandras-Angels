@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MunchEase</string>
+    <string name="price_1">$</string>
+    <string name="price_2">$$</string>
+    <string name="price_3">$$$</string>
+    <string name="price_4">$$$$</string>
+    <string name="price_unavailable">$=?</string>
 </resources>

@@ -1,4 +1,4 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.data;
 
 import java.util.Vector;
 

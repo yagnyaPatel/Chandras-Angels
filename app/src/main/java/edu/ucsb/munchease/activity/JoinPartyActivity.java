@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import edu.ucsb.munchease.MunchEaseValues;
+import edu.ucsb.munchease.data.MunchEaseValues;
 import edu.ucsb.munchease.R;
 
 public class JoinPartyActivity extends AppCompatActivity {

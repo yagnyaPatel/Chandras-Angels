@@ -9,9 +9,9 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import edu.ucsb.munchease.Party;
+import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.R;
-import edu.ucsb.munchease.Restaurant;
+import edu.ucsb.munchease.data.Restaurant;
 
 public class SharePartyActivity extends AppCompatActivity {
 
