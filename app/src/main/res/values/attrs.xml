@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RestaurantListItem">
+        <attr name="restaurantName" format="string"/>
+        <attr name="rating" format="string"/>
+        <attr name="numberOfReviews" format="string"/>
+        <attr name="price" format="string"/>
+        <attr name="link" format="string"/>
+    </declare-styleable>
+</resources>
