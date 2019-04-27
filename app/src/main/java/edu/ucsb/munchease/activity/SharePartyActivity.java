@@ -1,4 +1,4 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,10 @@ import android.widget.Button;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import edu.ucsb.munchease.Party;
+import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.Restaurant;
 
 public class SharePartyActivity extends AppCompatActivity {
 

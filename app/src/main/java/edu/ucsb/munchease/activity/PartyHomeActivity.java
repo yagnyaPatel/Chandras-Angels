@@ -1,4 +1,4 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.activity;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.ucsb.munchease.R;
 
 public class PartyHomeActivity extends AppCompatActivity {
 
