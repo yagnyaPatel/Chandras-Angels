@@ -23,16 +23,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //------------------------------------------------------------------
-        //DATABASE TESTING
-        //------------------------------------------------------------------
-
-        /*
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("123456");
-        myRef.setValue(1);
-        */
-
-        //------------------------------------------------------------------
         //BUTTON CONFIGURATION
         //------------------------------------------------------------------
 

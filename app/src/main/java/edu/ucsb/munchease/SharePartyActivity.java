@@ -21,7 +21,7 @@ public class SharePartyActivity extends AppCompatActivity {
         party.addRestaurant(new Restaurant("Restaurant 2", 3.0, "5678 An Avenue"));
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference(party.getPartyID());
+        final DatabaseReference myRef = database.getReference(party.getPartyID() + "/party");
         myRef.setValue(party);
 
         //Make "NEXT" button (button_next) take you to the Party Home Activity (PartyHomeActivity)

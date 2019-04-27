@@ -13,6 +13,12 @@ public class Party {
         partyID = "123456";
     }
 
+    public Party(Vector<Restaurant> restaurants, int members, String partyID) {
+        this.restaurants = restaurants;
+        this.members = members;
+        this.partyID = partyID;
+    }
+
     public Vector<Restaurant> getRestaurants() {
         return restaurants;
     }
@@ -23,6 +29,18 @@ public class Party {
 
     public String getPartyID() {
         return partyID;
+    }
+
+    public void setRestaurants(Vector<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
+
+    public void setMembers(int members) {
+        this.members = members;
+    }
+
+    public void setPartyID(String partyID) {
+        this.partyID = partyID;
     }
 
     public void addMember() {
