@@ -1,25 +1,26 @@
 package edu.ucsb.munchease.data;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Party {
-    Vector<Restaurant> restaurants;
-    int members;
-    String partyID;
+    private ArrayList<Restaurant> restaurants;
+    private int members;
+    private String partyID;
 
     public Party() {
-        restaurants = new Vector<Restaurant>();
+        restaurants = new ArrayList<Restaurant>();
         members = 1;
         partyID = "123456";
     }
 
-    public Party(Vector<Restaurant> restaurants, int members, String partyID) {
+    public Party(ArrayList<Restaurant> restaurants, int members, String partyID) {
         this.restaurants = restaurants;
         this.members = members;
         this.partyID = partyID;
     }
 
-    public Vector<Restaurant> getRestaurants() {
+    public ArrayList<Restaurant> getRestaurants() {
         return restaurants;
     }
 
@@ -31,7 +32,7 @@ public class Party {
         return partyID;
     }
 
-    public void setRestaurants(Vector<Restaurant> restaurants) {
+    public void setRestaurants(ArrayList<Restaurant> restaurants) {
         this.restaurants = restaurants;
     }
 

@@ -17,10 +17,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.data.Restaurant;
 import edu.ucsb.munchease.view.RestaurantAdapter;
 
 public class PartyHomeActivity extends AppCompatActivity {
@@ -60,8 +62,11 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         // specify an adapter (see also next example)
-        String[] myDataset = {"Restaurant 1", "Restaurant 2"};
-        mAdapter = new RestaurantAdapter(myDataset);
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.add(new Restaurant("Restaurant 1", 5.0, 25, "$$", "1234 The Street"));
+        restaurants.add(new Restaurant("Restaurant 2", 3.0, 50, "$$$$", "5678 An Avenue"));
+
+        mAdapter = new RestaurantAdapter(restaurants);
         recyclerView_restaurantList.setAdapter(mAdapter);
 
         //Database instance

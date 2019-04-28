@@ -21,8 +21,8 @@ public class SharePartyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share_party);
 
         Party party = new Party();
-        party.addRestaurant(new Restaurant("Restaurant 1", 5.0, "1234 The Street"));
-        party.addRestaurant(new Restaurant("Restaurant 2", 3.0, "5678 An Avenue"));
+        party.addRestaurant(new Restaurant("Restaurant 1", 5.0, 25, "$$", "1234 The Street"));
+        party.addRestaurant(new Restaurant("Restaurant 2", 3.0, 50, "$$$$", "5678 An Avenue"));
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference(party.getPartyID() + "/party");
