@@ -1,6 +1,5 @@
 package edu.ucsb.munchease.view;
 
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;

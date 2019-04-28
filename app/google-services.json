@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "787730136881-lk4m4hen7nlqdbacjmi2cbghijd8o6ll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.munchease",
+            "certificate_hash": "30c600d3ca05438622da42e9f019f3fb1c2cd190"
+          }
+        },
+        {
           "client_id": "787730136881-vms2c1og8gq8bdqgcim34k54046hg23j.apps.googleusercontent.com",
           "client_type": 3
         }

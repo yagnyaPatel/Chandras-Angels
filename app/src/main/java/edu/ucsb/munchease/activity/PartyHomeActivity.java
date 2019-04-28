@@ -6,26 +6,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
 import edu.ucsb.munchease.view.RestaurantAdapter;
 
 public class PartyHomeActivity extends AppCompatActivity {
+
+    //The party
+    private Party party;
 
     //Visual components of the app
     private TextView textView_testNumber;
@@ -90,6 +104,36 @@ public class PartyHomeActivity extends AppCompatActivity {
 
             }
         });*/
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("parties").document("123456");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                party = documentSnapshot.toObject(Party.class);
+            }
+        });
+        //docRef.getClass();
+
+        /*db.collection("parties")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Toast.makeText(getApplicationContext(), document.getId() + " => " + document.getData(), Toast.LENGTH_LONG).show();
+                                //party = document.toObject(Party.class);
+                            }
+                        } else {
+                            //Log.w(TAG, "Error getting documents.", task.getException());
+                            Toast.makeText(getApplicationContext(), "Error getting documents.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });*/
+
+        Toast.makeText(getApplicationContext(), party.getClass() + "", Toast.LENGTH_SHORT).show();
 
         //------------------------------------------------------------------
         //BUTTON CONFIGURATION
