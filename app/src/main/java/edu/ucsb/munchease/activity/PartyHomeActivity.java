@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,8 +21,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.view.RestaurantAdapter;
 
 public class PartyHomeActivity extends AppCompatActivity {
+
+    //Visual components of the app
+    private TextView textView_testNumber;
+    private Button button_testButton;
+
+    private RecyclerView recyclerView_restaurantList;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    //Database instance
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    //Database reference points
+    private DatabaseReference databaseRef = database.getReference();
+    private DatabaseReference partyRef = databaseRef.child("123456/party");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +46,30 @@ public class PartyHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_party_home);
 
         //Visual components of the app
-        final TextView textView_testNumber = findViewById(R.id.textView_testNumber);
-        final Button button_testButton = findViewById(R.id.button_testButton);
+        textView_testNumber = findViewById(R.id.textView_testNumber);
+        button_testButton = findViewById(R.id.button_testButton);
+
+        recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView_restaurantList.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView_restaurantList.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        String[] myDataset = {"Restaurant 1", "Restaurant 2"};
+        mAdapter = new RestaurantAdapter(myDataset);
+        recyclerView_restaurantList.setAdapter(mAdapter);
 
         //Database instance
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         //Database reference points
-        final DatabaseReference databaseRef = database.getReference();
-        final DatabaseReference partyRef = databaseRef.child("123456/party");
+        databaseRef = database.getReference();
+        partyRef = databaseRef.child("123456/party");
 
         //Increment the value of "members" in the database when the button is clicked
         button_testButton.setOnClickListener(new View.OnClickListener() {

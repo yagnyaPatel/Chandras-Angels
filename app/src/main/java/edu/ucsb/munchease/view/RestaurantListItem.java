@@ -62,7 +62,7 @@ public class RestaurantListItem extends ConstraintLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, sets);
         CharSequence id = typedArray.getText(index0);
         CharSequence link = typedArray.getText(index1);
-        CharSequence restaurantName = typedArray.getText(index2)
+        CharSequence restaurantName = typedArray.getText(index2);
         CharSequence rating = typedArray.getText(index3);
         CharSequence numberOfReviews = typedArray.getText(index4);
         CharSequence price = typedArray.getText(index5);
@@ -84,8 +84,6 @@ public class RestaurantListItem extends ConstraintLayout {
         textView_price = findViewById(R.id.textView_price);
         textView_votes = findViewById(R.id.textView_votes);
     }
-
-    public void setID
 
     public void setRestaurantName(CharSequence restaurantName) {
         textView_restaurantName.setText(restaurantName);
