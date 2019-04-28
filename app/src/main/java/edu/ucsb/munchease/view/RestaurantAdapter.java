@@ -1,5 +1,7 @@
 package edu.ucsb.munchease.view;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,25 +61,51 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         // create a new view
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_restaurant_list_item, parent, false);
-        RestaurantViewHolder vh = new RestaurantViewHolder(v);
-        return vh;
+        return new RestaurantViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(RestaurantViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        //holder.restaurantView.setText(mDataset[position]);
-        holder.textView_restaurantName.setText(restaurants.get(position).getName());
-        holder.textView_numberOfReviews.setText(restaurants.get(position).getNumberOfReviews() + " reviews");
-        holder.textView_price.setText(restaurants.get(position).getPrice());
-        holder.textView_votes.setText(restaurants.get(position).getVotes() + "");
+    public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
+        Restaurant restaurant = restaurants.get(position);
+
+        holder.textView_restaurantName.setText(restaurant.getName());
+        holder.textView_numberOfReviews.setText(restaurant.getNumberOfReviews() + " reviews");
+        holder.textView_price.setText(restaurant.getPrice());
+        holder.textView_votes.setText(restaurant.getVotes() + "");
+        holder.imageView_stars.setImageResource(ratingImageHelper(restaurant.getRating()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return restaurants.size();
+    }
+
+    private int ratingImageHelper(String rating) {
+        switch (rating) {
+            case "0":
+                return R.drawable.stars_regular_0;
+            case "1":
+                return R.drawable.stars_regular_1;
+            case "1.5":
+                return R.drawable.stars_regular_1_half;
+            case "2":
+                return R.drawable.stars_regular_2;
+            case "2.5":
+                return R.drawable.stars_regular_2_half;
+            case "3":
+                return R.drawable.stars_regular_3;
+            case "3.5":
+                return R.drawable.stars_regular_3_half;
+            case "4":
+                return R.drawable.stars_regular_4;
+            case "4.5":
+                return R.drawable.stars_regular_4_half;
+            case "5":
+                return R.drawable.stars_regular_5;
+            default:
+                return R.drawable.stars_regular_0;
+        }
     }
 }

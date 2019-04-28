@@ -3,7 +3,7 @@ package edu.ucsb.munchease.data;
 public class Restaurant {
     private String name;
 
-    private double rating;
+    private String rating;
     private int numberOfReviews;
     private String price;
 
@@ -15,7 +15,7 @@ public class Restaurant {
     }
 
 
-    public Restaurant(String name, double rating, int numberOfReviews, String price, String address) {
+    public Restaurant(String name, String rating, int numberOfReviews, String price, String address) {
         this.name = name;
         this.rating = rating;
         this.numberOfReviews = numberOfReviews;
@@ -27,7 +27,7 @@ public class Restaurant {
         return name;
     }
 
-    public double getRating() {
+    public String getRating() {
         return rating;
     }
 

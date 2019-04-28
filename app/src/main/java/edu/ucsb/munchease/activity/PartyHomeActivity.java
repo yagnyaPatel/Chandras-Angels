@@ -47,34 +47,53 @@ public class PartyHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        //Visual components of the app
-        textView_testNumber = findViewById(R.id.textView_testNumber);
-        button_testButton = findViewById(R.id.button_testButton);
-
-        recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView_restaurantList.setHasFixedSize(true);
-
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView_restaurantList.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant("Restaurant 1", 5.0, 25, "$$", "1234 The Street"));
-        restaurants.add(new Restaurant("Restaurant 2", 3.0, 50, "$$$$", "5678 An Avenue"));
-
-        mAdapter = new RestaurantAdapter(restaurants);
-        recyclerView_restaurantList.setAdapter(mAdapter);
-
         //Database instance
         database = FirebaseDatabase.getInstance();
 
         //Database reference points
         databaseRef = database.getReference();
         partyRef = databaseRef.child("123456/party");
+
+        //Visual components of the app
+        textView_testNumber = findViewById(R.id.textView_testNumber);
+        button_testButton = findViewById(R.id.button_testButton);
+
+        recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
+        recyclerView_restaurantList.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView_restaurantList.setLayoutManager(layoutManager);
+
+        //Specify an adapter
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.add(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        restaurants.add(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+
+        mAdapter = new RestaurantAdapter(restaurants);
+        recyclerView_restaurantList.setAdapter(mAdapter);
+
+        //------------------------------------------------------------------
+        //LIST CONFIGURATION
+        //------------------------------------------------------------------
+
+        /*databaseRef.child("123456").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) dataSnapshot.getValue();
+                mAdapter = new RestaurantAdapter(restaurants);
+                recyclerView_restaurantList.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+        //------------------------------------------------------------------
+        //BUTTON CONFIGURATION
+        //------------------------------------------------------------------
 
         //Increment the value of "members" in the database when the button is clicked
         button_testButton.setOnClickListener(new View.OnClickListener() {
