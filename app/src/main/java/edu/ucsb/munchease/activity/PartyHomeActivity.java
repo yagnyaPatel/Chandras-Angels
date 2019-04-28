@@ -1,9 +1,11 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.activity;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,26 +17,83 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.data.Restaurant;
+import edu.ucsb.munchease.view.RestaurantAdapter;
+
 public class PartyHomeActivity extends AppCompatActivity {
+
+    //Visual components of the app
+    private TextView textView_testNumber;
+    private Button button_testButton;
+
+    private RecyclerView recyclerView_restaurantList;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
+    //Database instance
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    //Database reference points
+    private DatabaseReference databaseRef = database.getReference();
+    private DatabaseReference partyRef = databaseRef.child("123456/party");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        //Visual components of the app
-        final TextView textView_testNumber = findViewById(R.id.textView_testNumber);
-        final Button button_testButton = findViewById(R.id.button_testButton);
-
         //Database instance
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
 
         //Database reference points
-        final DatabaseReference databaseRef = database.getReference();
-        final DatabaseReference partyRef = databaseRef.child("123456/party");
+        databaseRef = database.getReference();
+        partyRef = databaseRef.child("123456/party");
+
+        //Visual components of the app
+        textView_testNumber = findViewById(R.id.textView_testNumber);
+        button_testButton = findViewById(R.id.button_testButton);
+
+        recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
+        recyclerView_restaurantList.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView_restaurantList.setLayoutManager(layoutManager);
+
+        //Specify an adapter
+        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+        restaurants.add(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        restaurants.add(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+
+        mAdapter = new RestaurantAdapter(restaurants);
+        recyclerView_restaurantList.setAdapter(mAdapter);
+
+        //------------------------------------------------------------------
+        //LIST CONFIGURATION
+        //------------------------------------------------------------------
+
+        /*databaseRef.child("123456/party/restaurants").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) dataSnapshot.getValue();
+                mAdapter = new RestaurantAdapter(restaurants);
+                recyclerView_restaurantList.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+        //------------------------------------------------------------------
+        //BUTTON CONFIGURATION
+        //------------------------------------------------------------------
 
         //Increment the value of "members" in the database when the button is clicked
         button_testButton.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,10 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import edu.ucsb.munchease.data.Party;
+import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.data.Restaurant;
+
 public class SharePartyActivity extends AppCompatActivity {
 
     @Override
@@ -17,8 +21,8 @@ public class SharePartyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share_party);
 
         Party party = new Party();
-        party.addRestaurant(new Restaurant("Restaurant 1", 5.0, "1234 The Street"));
-        party.addRestaurant(new Restaurant("Restaurant 2", 3.0, "5678 An Avenue"));
+        party.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference(party.getPartyID() + "/party");
