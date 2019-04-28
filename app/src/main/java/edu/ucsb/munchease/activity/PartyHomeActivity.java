@@ -77,7 +77,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         //LIST CONFIGURATION
         //------------------------------------------------------------------
 
-        /*databaseRef.child("123456").addValueEventListener(new ValueEventListener() {
+        /*databaseRef.child("123456/party/restaurants").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) dataSnapshot.getValue();
