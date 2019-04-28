@@ -42,36 +42,58 @@ public class PartyHomeActivity extends AppCompatActivity {
     private Party party;
 
     //Visual components of the app
-    private TextView textView_testNumber;
-    private Button button_testButton;
 
     private RecyclerView recyclerView_restaurantList;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    //Database instance
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseFirestore db;
 
-    //Database reference points
-    private DatabaseReference databaseRef = database.getReference();
-    private DatabaseReference partyRef = databaseRef.child("123456/party");
+    ArrayList<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        //Database instance
-        database = FirebaseDatabase.getInstance();
+        setUpFirebase();
+        setUpRestaurantList();
 
-        //Database reference points
-        databaseRef = database.getReference();
-        partyRef = databaseRef.child("123456/party");
+        //------------------------------------------------------------------
+        //LIST CONFIGURATION
+        //------------------------------------------------------------------
 
-        //Visual components of the app
-        textView_testNumber = findViewById(R.id.textView_testNumber);
-        button_testButton = findViewById(R.id.button_testButton);
+        restaurants.add(new Restaurant("Restaurant 3", "0", 1, "$$", "1234 The Street", 0));
+        restaurants.add(new Restaurant("Restaurant 4", "1.5", 10, "$$$$", "5678 An Avenue", 0));
 
+        final DocumentReference docRef = db.collection("parties").document("123456");
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot != null) {
+                        party = documentSnapshot.toObject(Party.class);
+
+                        String name = party.getRestaurants().get(0).getName();
+                        String rating = party.getRestaurants().get(0).getRating();
+                        int numberOfReviews = party.getRestaurants().get(0).getNumberOfReviews();
+                        String price = party.getRestaurants().get(0).getPrice();
+                        String address = party.getRestaurants().get(0).getAddress();
+                        int votes = party.getRestaurants().get(0).getVotes();
+
+                        Restaurant testRestaurant = new Restaurant(name, rating, numberOfReviews, price, address, votes);
+                        restaurants.add(testRestaurant);
+
+                        Toast.makeText(getApplicationContext(), restaurants.size() + "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setUpRestaurantList() {
         recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
         recyclerView_restaurantList.setHasFixedSize(true);
 
@@ -80,127 +102,12 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         //Specify an adapter
-        ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
-        restaurants.add(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        restaurants.add(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
-
+        restaurants = new ArrayList<>();
         mAdapter = new RestaurantAdapter(restaurants);
         recyclerView_restaurantList.setAdapter(mAdapter);
+    }
 
-        //------------------------------------------------------------------
-        //LIST CONFIGURATION
-        //------------------------------------------------------------------
-
-        /*databaseRef.child("123456/party/restaurants").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) dataSnapshot.getValue();
-                mAdapter = new RestaurantAdapter(restaurants);
-                recyclerView_restaurantList.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference docRef = db.collection("parties").document("123456");
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                party = documentSnapshot.toObject(Party.class);
-            }
-        });
-        //docRef.getClass();
-
-        /*db.collection("parties")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Toast.makeText(getApplicationContext(), document.getId() + " => " + document.getData(), Toast.LENGTH_LONG).show();
-                                //party = document.toObject(Party.class);
-                            }
-                        } else {
-                            //Log.w(TAG, "Error getting documents.", task.getException());
-                            Toast.makeText(getApplicationContext(), "Error getting documents.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-
-        Toast.makeText(getApplicationContext(), party.getClass() + "", Toast.LENGTH_SHORT).show();
-
-        //------------------------------------------------------------------
-        //BUTTON CONFIGURATION
-        //------------------------------------------------------------------
-
-        //Increment the value of "members" in the database when the button is clicked
-        button_testButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {                                                   //Whenever the button is clicked
-                partyRef.child("members").addListenerForSingleValueEvent(new ValueEventListener() {     //Get a snapshot of the current data at "123456/party/members"
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Integer members = dataSnapshot.getValue(Integer.class);                         //Get the value of the data
-                        Map<String, Object> partyUpdates = new HashMap<>();
-                        partyUpdates.put("members", members + 1);                                       //Increment the value of "members"
-                        partyRef.updateChildren(partyUpdates);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-
-        //Update the text when the "members" field changes in the database
-        databaseRef.child("123456/party/members").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                textView_testNumber.setText(dataSnapshot.getValue() + "");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //Update the text when the "members" field changes in the database
-        //This uses a different method from above - will look for any changes to children of the party in the database
-        //If uncommented at the same time as above code block, will break the app
-        /*databaseRef.child("123456/party").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                textView_testNumber.setText(dataSnapshot.getValue() + "");
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
+    private void setUpFirebase() {
+        db = FirebaseFirestore.getInstance();
     }
 }

@@ -31,8 +31,8 @@ public class SharePartyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_share_party);
 
         Party party = new Party();
-        party.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+        party.addRestaurant(new Restaurant("Restaurant 1", "5", 250, "$$", "1234 The Street", 1));
+        party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue", 1));
 
         /*final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference(party.getPartyID() + "/party");
@@ -40,7 +40,7 @@ public class SharePartyActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-// Add a new document with a generated ID
+        // Add a new document with a generated ID
         db.collection("parties").document(party.getPartyID()).set(party);
 
         //Make "NEXT" button (button_next) take you to the Party Home Activity (PartyHomeActivity)

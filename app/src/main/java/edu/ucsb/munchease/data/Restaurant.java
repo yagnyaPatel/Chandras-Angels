@@ -14,13 +14,13 @@ public class Restaurant {
     public Restaurant() {
     }
 
-
-    public Restaurant(String name, String rating, int numberOfReviews, String price, String address) {
+    public Restaurant(String name, String rating, int numberOfReviews, String price, String address, int votes) {
         this.name = name;
         this.rating = rating;
         this.numberOfReviews = numberOfReviews;
         this.price = price;
         this.address = address;
+        this.votes = votes;
     }
 
     public String getName() {
