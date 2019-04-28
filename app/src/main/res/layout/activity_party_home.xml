@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_testButton">
 
         <TextView
-            android:id="@+id/textView_restaurantTitle"
+            android:id="@+id/textView_restaurantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -93,11 +93,11 @@
             android:layout_marginLeft="8dp"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_restaurantTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textView_restaurantName"
             app:srcCompat="@drawable/stars_small_5" />
 
         <TextView
-            android:id="@+id/textView_reviewCount"
+            android:id="@+id/textView_numberOfReviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -114,9 +114,9 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:text="$$$"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_reviewCount"
-            app:layout_constraintStart_toEndOf="@+id/textView_reviewCount"
-            app:layout_constraintTop_toTopOf="@+id/textView_reviewCount" />
+            app:layout_constraintBottom_toBottomOf="@+id/textView_numberOfReviews"
+            app:layout_constraintStart_toEndOf="@+id/textView_numberOfReviews"
+            app:layout_constraintTop_toTopOf="@+id/textView_numberOfReviews" />
 
     </android.support.constraint.ConstraintLayout>
 
