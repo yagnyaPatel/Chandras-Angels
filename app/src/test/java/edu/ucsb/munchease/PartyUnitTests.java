@@ -3,6 +3,8 @@ package edu.ucsb.munchease;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
 
@@ -38,5 +40,13 @@ public class PartyUnitTests {
     @Test
     public void getRestaurants_isCorrect_1() {
         assertEquals(restaurant1, party2.getRestaurants().get(0));
+    }
+
+    @Test
+    public void getRestaurants_isCorrect_2() {
+        ArrayList<Restaurant> list = new ArrayList<>();
+        list.add(restaurant1);
+
+        assertEquals(list, party2.getRestaurants());
     }
 }
