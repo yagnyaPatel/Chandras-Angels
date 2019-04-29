@@ -1,35 +1,13 @@
 package edu.ucsb.munchease.activity;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Party;
@@ -49,8 +27,6 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
-    ArrayList<Restaurant> restaurants;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,15 +34,17 @@ public class PartyHomeActivity extends AppCompatActivity {
 
         setUpFirebase();
         setUpRestaurantList();
+        populateDatabase();
+
+        party = new Party();
+        party.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
 
         //------------------------------------------------------------------
         //LIST CONFIGURATION
         //------------------------------------------------------------------
 
-        restaurants.add(new Restaurant("Restaurant 3", "0", 1, "$$", "1234 The Street", 0));
-        restaurants.add(new Restaurant("Restaurant 4", "1.5", 10, "$$$$", "5678 An Avenue", 0));
-
-        final DocumentReference docRef = db.collection("parties").document("123456");
+        /*DocumentReference docRef = db.collection("parties").document("123456");
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -76,21 +54,11 @@ public class PartyHomeActivity extends AppCompatActivity {
                     if(documentSnapshot != null) {
                         party = documentSnapshot.toObject(Party.class);
 
-                        String name = party.getRestaurants().get(0).getName();
-                        String rating = party.getRestaurants().get(0).getRating();
-                        int numberOfReviews = party.getRestaurants().get(0).getNumberOfReviews();
-                        String price = party.getRestaurants().get(0).getPrice();
-                        String address = party.getRestaurants().get(0).getAddress();
-                        int votes = party.getRestaurants().get(0).getVotes();
-
-                        Restaurant testRestaurant = new Restaurant(name, rating, numberOfReviews, price, address, votes);
-                        restaurants.add(testRestaurant);
-
-                        Toast.makeText(getApplicationContext(), restaurants.size() + "", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), party.getRestaurants().size() + "", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void setUpRestaurantList() {
@@ -102,12 +70,22 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         //Specify an adapter
-        restaurants = new ArrayList<>();
-        mAdapter = new RestaurantAdapter(restaurants);
+        ArrayList<Restaurant> rest = new ArrayList<>();
+        rest.add(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        mAdapter = new RestaurantAdapter(rest);
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
+    }
+
+    private void populateDatabase() {
+        Party party2 = new Party();
+        party2.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        party2.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+
+        // Add a new document with a generated ID
+        db.collection("parties").document(party2.getPartyID()).set(party2);
     }
 }
