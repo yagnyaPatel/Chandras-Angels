@@ -1,13 +1,17 @@
 package edu.ucsb.munchease.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Party;
@@ -32,13 +36,17 @@ public class PartyHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        setUpFirebase();
-        setUpRestaurantList();
-        populateDatabase();
-
         party = new Party();
         party.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+        //party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+
+        setUpFirebase();
+
+        populateDatabase();
+
+        //updateParty();
+
+        setUpRestaurantList();
 
         //------------------------------------------------------------------
         //LIST CONFIGURATION
@@ -70,9 +78,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         //Specify an adapter
-        ArrayList<Restaurant> rest = new ArrayList<>();
-        rest.add(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        mAdapter = new RestaurantAdapter(rest);
+        mAdapter = new RestaurantAdapter(party.getRestaurants());
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 
@@ -87,5 +93,23 @@ public class PartyHomeActivity extends AppCompatActivity {
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
+    }
+
+    private void updateParty() {
+        DocumentReference docRef = db.collection("parties").document("123456");
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    if(documentSnapshot != null) {
+                        party = documentSnapshot.toObject(Party.class);
+
+                        Toast.makeText(getApplicationContext(), party.getRestaurants().size() + "", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 }
