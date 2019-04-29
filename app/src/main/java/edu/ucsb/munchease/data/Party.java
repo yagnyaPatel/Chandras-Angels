@@ -8,7 +8,7 @@ public class Party {
     private String partyID;
 
     public Party() {
-        restaurants = new ArrayList<Restaurant>();
+        restaurants = new ArrayList<>();
         members = 1;
         partyID = "123456";
     }

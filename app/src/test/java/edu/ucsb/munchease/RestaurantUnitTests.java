@@ -1,5 +1,6 @@
 package edu.ucsb.munchease;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import edu.ucsb.munchease.data.Restaurant;
@@ -13,7 +14,12 @@ import static org.junit.Assert.*;
  */
 public class RestaurantUnitTests {
 
-    Restaurant restaurant1 = new Restaurant("Restaurant 1", "5", 10, "$$$$", "1000 Epic Street");
+    Restaurant restaurant1;
+
+    @Before
+    public void setUp() {
+        restaurant1 = new Restaurant("Restaurant 1", "5", 10, "$$$$", "1000 Epic Street");
+    }
 
     @Test
     public void getName_isCorrect_1() {
