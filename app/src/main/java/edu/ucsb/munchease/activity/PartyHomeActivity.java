@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,36 +37,16 @@ public class PartyHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_party_home);
 
         party = new Party();
-        party.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        party.addRestaurant(new Restaurant("Local Restaurant 1", "5", 25, "$$", "1234 The Street"));
         //party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
 
         setUpFirebase();
 
         populateDatabase();
 
-        //updateParty();
+        updateParty();
 
-        setUpRestaurantList();
-
-        //------------------------------------------------------------------
-        //LIST CONFIGURATION
-        //------------------------------------------------------------------
-
-        /*DocumentReference docRef = db.collection("parties").document("123456");
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot != null) {
-                        party = documentSnapshot.toObject(Party.class);
-
-                        Toast.makeText(getApplicationContext(), party.getRestaurants().size() + "", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });*/
+        //setUpRestaurantList();
     }
 
     private void setUpRestaurantList() {
@@ -88,8 +68,8 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     private void populateDatabase() {
         Party party2 = new Party();
-        party2.addRestaurant(new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        party2.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+        party2.addRestaurant(new Restaurant("DB Restaurant 1", "5", 25, "$$", "1234 The Street"));
+        party2.addRestaurant(new Restaurant("DB Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
@@ -97,17 +77,20 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     private void updateParty() {
         DocumentReference docRef = db.collection("parties").document("123456");
-
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    if(documentSnapshot != null) {
-                        party = documentSnapshot.toObject(Party.class);
-
-                        Toast.makeText(getApplicationContext(), party.getRestaurants().size() + "", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        party = document.toObject(Party.class);
+                        Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
+                        setUpRestaurantList();
+                    } else {
+                        Log.d("---RETRIEVE---", "No such document");
                     }
+                } else {
+                    Log.d("---RETRIEVE---", "get failed with ", task.getException());
                 }
             }
         });
