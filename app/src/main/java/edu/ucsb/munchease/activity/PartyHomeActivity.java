@@ -32,6 +32,14 @@ public class PartyHomeActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private DocumentReference docRef;
 
+    //------------------------------------------------------------------
+    //MEMBER FUNCTIONS
+    //------------------------------------------------------------------
+
+    /**
+     * Called on the creation of the activity
+     * @param savedInstanceState The previous state of the activity?
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +52,11 @@ public class PartyHomeActivity extends AppCompatActivity {
         populateDatabase();
         setUpRestaurantList();
         retrievePartyFromDatabase();
-
-        //setUpRestaurantList();
     }
 
+    /**
+     * Sets up the RecyclerView to show the list of restaurants
+     */
     private void setUpRestaurantList() {
         recyclerView_restaurantList = findViewById(R.id.recyclerView_restaurantList);
         recyclerView_restaurantList.setHasFixedSize(true);
@@ -61,17 +70,17 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 
-    private void updateAdapter(Party theParty) {
-        //Specify an adapter
-        mAdapter = new RestaurantAdapter(theParty.getRestaurants());
-        recyclerView_restaurantList.setAdapter(mAdapter);
-    }
-
+    /**
+     * Initializes the Firebase references
+     */
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("parties").document("123456");
     }
 
+    /**
+     * Adds dummy data to the databse
+     */
     private void populateDatabase() {
         Party party2 = new Party();
         party2.addRestaurant(new Restaurant("DB Restaurant 1", "5", 25, "$$", "1234 The Street"));
@@ -81,6 +90,10 @@ public class PartyHomeActivity extends AppCompatActivity {
         db.collection("parties").document(party2.getPartyID()).set(party2);
     }
 
+    /**
+     * Gets the latest information from the database and updates the RecyclerView adapter to reflect any changes
+     * Currently does not properly support updating on data changes, and will just add to the end of the list instead of updating items
+     */
     private void retrievePartyFromDatabase() {
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -89,12 +102,14 @@ public class PartyHomeActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
+
                         Party theParty = document.toObject(Party.class);
                         int startPosition = party.getRestaurants().size();
+
                         for(Restaurant r : theParty.getRestaurants()) {
                             party.addRestaurant(r);
                         }
-                        //updateAdapter(theParty);
+
                         mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
                     } else {
                         Log.d("---RETRIEVE---", "No such document");
