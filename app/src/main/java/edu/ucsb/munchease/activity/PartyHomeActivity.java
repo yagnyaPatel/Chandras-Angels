@@ -30,6 +30,7 @@ public class PartyHomeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private FirebaseFirestore db;
+    private DocumentReference docRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +38,12 @@ public class PartyHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_party_home);
 
         party = new Party();
-        party.addRestaurant(new Restaurant("Local Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        //party.addRestaurant(new Restaurant("Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+        //party.addRestaurant(new Restaurant("Local Restaurant 1", "5", 25, "$$", "1234 The Street")); //Test restaurant
 
         setUpFirebase();
-
         populateDatabase();
-
-        updateParty();
+        setUpRestaurantList();
+        retrievePartyFromDatabase();
 
         //setUpRestaurantList();
     }
@@ -62,8 +61,15 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 
+    private void updateAdapter(Party theParty) {
+        //Specify an adapter
+        mAdapter = new RestaurantAdapter(theParty.getRestaurants());
+        recyclerView_restaurantList.setAdapter(mAdapter);
+    }
+
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
+        docRef = db.collection("parties").document("123456");
     }
 
     private void populateDatabase() {
@@ -75,17 +81,21 @@ public class PartyHomeActivity extends AppCompatActivity {
         db.collection("parties").document(party2.getPartyID()).set(party2);
     }
 
-    private void updateParty() {
-        DocumentReference docRef = db.collection("parties").document("123456");
+    private void retrievePartyFromDatabase() {
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        party = document.toObject(Party.class);
                         Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
-                        setUpRestaurantList();
+                        Party theParty = document.toObject(Party.class);
+                        int startPosition = party.getRestaurants().size();
+                        for(Restaurant r : theParty.getRestaurants()) {
+                            party.addRestaurant(r);
+                        }
+                        //updateAdapter(theParty);
+                        mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
                     } else {
                         Log.d("---RETRIEVE---", "No such document");
                     }
