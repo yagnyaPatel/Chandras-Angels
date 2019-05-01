@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Random;
 
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Party;
@@ -24,6 +28,8 @@ public class PartyHomeActivity extends AppCompatActivity {
     private Party party;
 
     //Visual components of the app
+
+    private Button button_addRandomRestaurant;
 
     private RecyclerView recyclerView_restaurantList;
     private RecyclerView.Adapter mAdapter;
@@ -52,6 +58,14 @@ public class PartyHomeActivity extends AppCompatActivity {
         populateDatabase();
         setUpRestaurantList();
         retrievePartyFromDatabase();
+
+        button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
+        button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addRestaurantToParty(generateRandomRestaurant());
+            }
+        });
     }
 
     /**
@@ -106,11 +120,64 @@ public class PartyHomeActivity extends AppCompatActivity {
                         Party theParty = document.toObject(Party.class);
                         int startPosition = party.getRestaurants().size();
 
-                        for(Restaurant r : theParty.getRestaurants()) {
-                            party.addRestaurant(r);
+                        for(int i = startPosition; i < theParty.getRestaurants().size(); i++) {
+                            party.addRestaurant(theParty.getRestaurants().get(i));
                         }
 
                         mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
+                    } else {
+                        Log.d("---RETRIEVE---", "No such document");
+                    }
+                } else {
+                    Log.d("---RETRIEVE---", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    /**
+     * Generates a random restaurant
+     * @return a random restaurant
+     */
+    private Restaurant generateRandomRestaurant() {
+        Random random = new Random();
+
+        String restaurantName = "DB Restaurant " + random.nextInt(100);
+        String rating = random.nextInt(5) + 1 + "";
+        int numberOfReviews = random.nextInt(500);
+
+        String price = "";
+        int priceNum = random.nextInt(3) + 1;
+        for(int i = 0; i < priceNum; i++) {
+            price += "$";
+        }
+
+        int addressNum = random.nextInt(10000);
+        String address = addressNum + " The Street";
+
+        Restaurant r = new Restaurant(restaurantName, rating, numberOfReviews, price, address);
+        return r;
+    }
+
+    private void addRestaurantToParty(Restaurant r) {
+        final Restaurant restaurant = r;
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
+
+                        Party theParty = document.toObject(Party.class);
+                        theParty.addRestaurant(restaurant);
+
+                        db.collection("parties").document(theParty.getPartyID()).set(theParty);
+
+                        retrievePartyFromDatabase();
+
+                        /*int startPosition = theParty.getRestaurants().size();
+                        mAdapter.notifyItemRangeInserted(startPosition, theParty.getRestaurants().size());*/
                     } else {
                         Log.d("---RETRIEVE---", "No such document");
                     }
