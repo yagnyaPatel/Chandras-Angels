@@ -153,6 +153,15 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     Log.d(TAG, "Current data: " + documentSnapshot.getData());
+
+                    Party theParty = documentSnapshot.toObject(Party.class);
+                    int startPosition = party.getRestaurants().size();
+
+                    for(int i = startPosition; i < theParty.getRestaurants().size(); i++) {
+                        party.addRestaurant(theParty.getRestaurants().get(i));
+                    }
+
+                    mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
@@ -199,7 +208,7 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                         db.collection("parties").document(theParty.getPartyID()).set(theParty);
 
-                        retrievePartyFromDatabase();
+                        //retrievePartyFromDatabase();
 
                         /*int startPosition = theParty.getRestaurants().size();
                         mAdapter.notifyItemRangeInserted(startPosition, theParty.getRestaurants().size());*/
