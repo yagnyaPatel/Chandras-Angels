@@ -13,9 +13,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Party;
@@ -58,6 +62,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         populateDatabase();
         setUpRestaurantList();
         retrievePartyFromDatabase();
+        setUpDatabaseListener();
 
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
         button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +135,26 @@ public class PartyHomeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d("---RETRIEVE---", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void setUpDatabaseListener() {
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                String TAG = "---LISTENER---";
+
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d(TAG, "Current data: " + documentSnapshot.getData());
+                } else {
+                    Log.d(TAG, "Current data: null");
                 }
             }
         });
