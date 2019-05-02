@@ -61,7 +61,32 @@
         android:text="0"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton_downvote"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.531" />
+
+    <ImageButton
+        android:id="@+id/imageButton_upvote"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
+        app:layout_constraintEnd_toStartOf="@+id/textView_votes"
+        app:layout_constraintTop_toTopOf="@+id/textView_votes"
+        app:srcCompat="@drawable/upvote" />
+
+    <ImageButton
+        android:id="@+id/imageButton_downvote"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView_votes"
+        app:srcCompat="@drawable/downvote" />
 
 </android.support.constraint.ConstraintLayout>
