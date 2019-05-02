@@ -20,9 +20,12 @@ import com.google.firebase.auth.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+// TODO Fix duplicate toasts bug
+
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    // Not sure if will need
+    // private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,16 @@ public class MainActivity extends AppCompatActivity {
         button_createParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToSharePartyActivity = new Intent(getApplicationContext(), SharePartyActivity.class);
-                startActivity(goToSharePartyActivity);
+                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    // Only navigate to other pages if user is signed in
+                    Intent goToSharePartyActivity = new Intent(getApplicationContext(), SharePartyActivity.class);
+                    startActivity(goToSharePartyActivity);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Error: Not signed into database. Attempting sign in...",
+                            Toast.LENGTH_SHORT).show();
+                    attemptSignIn();
+                }
             }
         });
 
@@ -47,36 +58,47 @@ public class MainActivity extends AppCompatActivity {
         button_joinParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToJoinPartyActivity = new Intent(getApplicationContext(), JoinPartyActivity.class);
-                startActivity(goToJoinPartyActivity);
+                if(FirebaseAuth.getInstance().getCurrentUser() != null)
+                {
+                    // Only navigate if user is signed in
+                    Intent goToJoinPartyActivity = new Intent(getApplicationContext(), JoinPartyActivity.class);
+                    startActivity(goToJoinPartyActivity);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Error: Not signed into database. Attempting sign in...",
+                            Toast.LENGTH_SHORT).show();
+                    attemptSignIn();
+                }
             }
         });
 
-        // -----
-        // FIREBASE AUTH STUFF
-        // -----
+    }
 
-        // Initialize FrebaseAuth
-        mAuth = FirebaseAuth.getInstance();
+    @Override
+    protected void onStart() {
+        super.onStart();
 
-        mAuth.signInAnonymously()
+
+    }
+
+    // Sign in anonymously to Firebase so database can be accessed
+    private void attemptSignIn() {
+        FirebaseAuth.getInstance().signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        // Create toast with status
                         if(task.isSuccessful()) {
-                            // Sign in success, display Toast
-                            Toast.makeText(MainActivity.this, "Anonymous authentication successful",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Successfully signed into database with id "
+                                    + FirebaseAuth.getInstance().getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
                         }
-
                         else {
-                            Toast.makeText(MainActivity.this, "Anonymous authentication failed",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Sign in failed",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
 
-        });
-
-        //
+                });
     }
+
 }
