@@ -28,8 +28,8 @@ public class PartyUnitTests {
 
 
     @Test
-    public void getPartyID_isCorrect_1() {
-        assertEquals("123456", party1.getPartyID());
+    public void getPartyID_isCorrect_1_shouldFail() {
+        assertEquals("123457", party1.getPartyID());
     }
 
     @Test
