@@ -67,11 +67,11 @@
 
     <ImageButton
         android:id="@+id/imageButton_upvote"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/effect_ripple_upvote"
         app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
         app:layout_constraintEnd_toStartOf="@+id/textView_votes"
         app:layout_constraintTop_toTopOf="@+id/textView_votes"
@@ -79,9 +79,9 @@
 
     <ImageButton
         android:id="@+id/imageButton_downvote"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@android:color/transparent"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/effect_ripple_downvote"
         app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView_votes"
