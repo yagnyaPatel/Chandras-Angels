@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //------------------------------------------------------------------
-        //BUTTON CONFIGURATION
+        // *** BUTTON CONFIGURATION ***
         //------------------------------------------------------------------
 
         //Make "CREATE" button (button_createParty) take you to the Share Party Activity (SharePartyActivity)

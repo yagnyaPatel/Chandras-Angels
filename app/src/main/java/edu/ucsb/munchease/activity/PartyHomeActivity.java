@@ -28,12 +28,17 @@ import edu.ucsb.munchease.view.RestaurantAdapter;
 
 public class PartyHomeActivity extends AppCompatActivity {
 
+    //------------------------------------------------------------------
+    // *** INSTANCE VARIABLES ***
+    //------------------------------------------------------------------
+
     //The party
     private Party party;
 
     //Visual components of the app
 
     private Button button_addRandomRestaurant;
+    private Button button_clearRestaurants;
 
     private RecyclerView recyclerView_restaurantList;
     private RecyclerView.Adapter mAdapter;
@@ -43,7 +48,7 @@ public class PartyHomeActivity extends AppCompatActivity {
     private DocumentReference docRef;
 
     //------------------------------------------------------------------
-    //MEMBER FUNCTIONS
+    // *** MEMBER FUNCTIONS ***
     //------------------------------------------------------------------
 
     /**
@@ -61,7 +66,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         setUpFirebase();
         populateDatabase();
         setUpRestaurantList();
-        retrievePartyFromDatabase();
+        //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
         setUpDatabaseListener();
 
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
@@ -69,6 +74,15 @@ public class PartyHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addRestaurantToParty(generateRandomRestaurant());
+            }
+        });
+
+        button_clearRestaurants = findViewById(R.id.button_clearRestaurants);
+        button_clearRestaurants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                party.clearRestaurants();
+                docRef.set(party);
             }
         });
     }
@@ -98,7 +112,7 @@ public class PartyHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Adds dummy data to the databse
+     * Adds dummy data to the database
      */
     private void populateDatabase() {
         Party party2 = new Party();
@@ -122,11 +136,11 @@ public class PartyHomeActivity extends AppCompatActivity {
                     if (document.exists()) {
                         Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
 
-                        Party theParty = document.toObject(Party.class);
+                        Party tempParty = document.toObject(Party.class);
                         int startPosition = party.getRestaurants().size();
 
-                        for(int i = startPosition; i < theParty.getRestaurants().size(); i++) {
-                            party.addRestaurant(theParty.getRestaurants().get(i));
+                        for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
+                            party.addRestaurant(tempParty.getRestaurants().get(i));
                         }
 
                         mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
@@ -154,14 +168,17 @@ public class PartyHomeActivity extends AppCompatActivity {
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     Log.d(TAG, "Current data: " + documentSnapshot.getData());
 
-                    Party theParty = documentSnapshot.toObject(Party.class);
+                    Party tempParty = documentSnapshot.toObject(Party.class);
+
+                    party.clearRestaurants();
+
                     int startPosition = party.getRestaurants().size();
 
-                    for(int i = startPosition; i < theParty.getRestaurants().size(); i++) {
-                        party.addRestaurant(theParty.getRestaurants().get(i));
+                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
+                        party.addRestaurant(tempParty.getRestaurants().get(i));
                     }
 
-                    mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
+                    mAdapter.notifyDataSetChanged();
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
@@ -193,8 +210,11 @@ public class PartyHomeActivity extends AppCompatActivity {
         return r;
     }
 
-    private void addRestaurantToParty(Restaurant r) {
-        final Restaurant restaurant = r;
+    /**
+     * Adds a restaurant to the DATABASE party and pushes it back to the database.  This means that it does NOT deal with the local party at all!!!
+     * @param r The restaurant to be added to the party
+     */
+    private void addRestaurantToParty(final Restaurant r) {
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -203,15 +223,10 @@ public class PartyHomeActivity extends AppCompatActivity {
                     if (document.exists()) {
                         Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
 
-                        Party theParty = document.toObject(Party.class);
-                        theParty.addRestaurant(restaurant);
+                        Party tempParty = document.toObject(Party.class);
+                        tempParty.addRestaurant(r);
 
-                        db.collection("parties").document(theParty.getPartyID()).set(theParty);
-
-                        //retrievePartyFromDatabase();
-
-                        /*int startPosition = theParty.getRestaurants().size();
-                        mAdapter.notifyItemRangeInserted(startPosition, theParty.getRestaurants().size());*/
+                        db.collection("parties").document(tempParty.getPartyID()).set(tempParty);
                     } else {
                         Log.d("---RETRIEVE---", "No such document");
                     }

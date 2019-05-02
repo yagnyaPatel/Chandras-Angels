@@ -50,4 +50,8 @@ public class Party {
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
     }
+
+    public void clearRestaurants() {
+        restaurants.clear();
+    }
 }
