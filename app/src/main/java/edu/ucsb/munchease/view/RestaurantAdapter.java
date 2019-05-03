@@ -3,10 +3,11 @@ package edu.ucsb.munchease.view;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         public TextView textView_restaurantName;
 
         //Voting components
-        public Button button_upvote, button_downvote;
+        public ImageButton button_upvote, button_downvote;
         public TextView textView_votes;
 
         //Rating components
@@ -51,6 +52,23 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             imageView_stars = v.findViewById(R.id.imageView_stars);
             textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
             textView_price = v.findViewById(R.id.textView_price);
+
+            button_upvote = v.findViewById(R.id.imageButton_upvote);
+            button_downvote = v.findViewById(R.id.imageButton_downvote);
+
+            button_upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("---ADAPTER---", "Upvote button clicked");
+                }
+            });
+
+            button_downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("---ADAPTER---", "Downvote button clicked");
+                }
+            });
         }
     }
 
