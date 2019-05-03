@@ -68,7 +68,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 @Override
                 public void onClick(View v) {
                     Log.d("---ADAPTER---", "Upvote button clicked");
-                    //docRef.update("restaurants.0.votes", 5); //TODO Fix this line
+                    docRef.update("restaurants.0", 5); //TODO Fix this line
                 }
             });
 
