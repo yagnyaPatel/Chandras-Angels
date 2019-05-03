@@ -11,6 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 import edu.ucsb.munchease.R;
@@ -30,6 +33,9 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     // you provide access to all the views for a data item in a view holder
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
+        private FirebaseFirestore db;
+        private DocumentReference docRef;
+
         //Basic information
         public TextView textView_restaurantName;
 
@@ -44,6 +50,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         public RestaurantViewHolder(View v) {
             super(v);
+
+            setUpFirebase();
 
             textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
 
@@ -60,6 +68,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 @Override
                 public void onClick(View v) {
                     Log.d("---ADAPTER---", "Upvote button clicked");
+                    //docRef.update("restaurants.0.votes", 5); //TODO Fix this line
                 }
             });
 
@@ -69,6 +78,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                     Log.d("---ADAPTER---", "Downvote button clicked");
                 }
             });
+        }
+
+        /**
+         * Initializes the Firebase references
+         */
+        private void setUpFirebase() {
+            db = FirebaseFirestore.getInstance();
+            docRef = db.collection("parties").document("123456");
         }
     }
 
