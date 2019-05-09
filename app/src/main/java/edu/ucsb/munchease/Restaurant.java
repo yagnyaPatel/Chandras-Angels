@@ -3,13 +3,17 @@ package edu.ucsb.munchease;
 import com.google.gson.*;
 
 public class Restaurant {
+    private String alias;
     private String name;
+    private String url;
 
     private String rating;
     private int reviewCount;
     private String price;
 
     private String address;
+
+    private RestaurantSchedule schedule;
 
     private int votes;
 
@@ -38,6 +42,8 @@ public class Restaurant {
 
     // TODO delete this
     // Example with only things we care about
+
+
     /*
     {
   "alias": "gary-danko-san-francisco",
@@ -79,12 +85,12 @@ public class Restaurant {
 */
 
 
-    public static Restaurant parseYelpData(String jsonInput) {
+    public Restaurant(String jsonInput) {
         // Declare variables
-        String alias;
-        String name;
-        String url;
-        int reviewCount; // review_count, numberOfReviews
+        // alias;
+        // name;
+        // url;
+        // reviewCount; // review_count, numberOfReviews
 
         // Get entire object
         JsonElement element = new JsonParser().parse(jsonInput);
