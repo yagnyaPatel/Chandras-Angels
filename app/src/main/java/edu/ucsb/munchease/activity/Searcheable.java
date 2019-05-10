@@ -1,6 +1,23 @@
 package edu.ucsb.munchease.activity;
 
-public class Searcheable {
+import android.app.SearchManager;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.gms.common.api.Response;
+import com.yelp.fusion.client.connection.*;
+import com.yelp.fusion.client.models.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.ucsb.munchease.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+
+public class Searcheable extends AppCompatActivity {
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
@@ -9,24 +26,23 @@ public class Searcheable {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
-            YelpFusionApi yelpFusionApi = apiFactory.createAPI(apiKey);
-            Map<String, String> params = new HashMap<>();
-            // general params
-            params.put("term", query);
+            doMySearch(query);
         }
     }
-    Call<SearchResponse> req = yelpFusionApi.getBusinessSearch(params);
-    Response<SearchResponse> response = call.execute();
-    Callback<SearchResponse> callback = new Callback<SearchResponse>() {
-        @Override
-        public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-            SearchResponse searchResponse = response.body();
-        }
-        @Override
-        public void onFailure(Call<SearchResponse> call, Throwable t) {
-            // HTTP error happened, do something to handle it.
-        }
+    //String inputString = ""; //Placeholder for the input from the query
+    YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
+    public Response<SearchResponse>(String query){
+        YelpFusionApi yelpFusionApi = apiFactory.createAPI("_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ-Q04YRy_XAXHYx");
+        Map<String, String> params = new HashMap<>();
+        // general params
+        params.put("term", query);
+        Call<SearchResponse> req = yelpFusionApi.getBusinessSearch(params);
+        Response<SearchResponse> response;
+        response = call.execute();
+        return response;
     };
     call.enqueue(callback);
 }
+/*
+
+ */
