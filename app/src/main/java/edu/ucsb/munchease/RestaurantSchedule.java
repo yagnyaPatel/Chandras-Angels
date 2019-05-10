@@ -8,6 +8,11 @@ public class RestaurantSchedule {
     private boolean isOpen;
     private ArrayList<DaySchedule> daySchedules;
 
+    // Helper fields for synchronicity purposes in private member functions
+    // Updated by helper function updateCurrentTime()
+    private String currentTime;
+    private int currentDay; // 1 - 7, Sunday = 1
+
     // Construct from JSON hours[] array from yelp return
     // Throw exception if bad array
     public RestaurantSchedule(JsonArray hours)
@@ -16,12 +21,51 @@ public class RestaurantSchedule {
 
         // TODO: Parse JSON into arguments
         // TODO: Convert yelp day to calendar format before inserting
+
+        // Update isOpen if it is out of date in the database
+        // currentTime and currentDate are initialized here
+        updateIsOpen();
     }
 
     public boolean getIsOpen() { return isOpen; }
 
+    /*
+     * Updates the isOpen field based on current system time
+     * Also calls updateCurrentTime()
+     * @return the updated isOpen field
+     */
+    public boolean updateIsOpen() {
+
+        // Get the index of most recent open shift pre-time update
+        int latestOpenIndex = getIndexOfLatestDaySchedule();
+        // Update date and time for
+        updateCurrentTime();
+
+        if(isOpen) {
+            // Get close time of shift in which it was currently open
+            String endTime = daySchedules.get(latestOpenIndex).getEndTime();
+            isOpen = (currentTime.compareTo(endTime) < 0);
+
+            return isOpen;
+        }
+        else {
+            // Get next schedule of open time (with outdated time)
+            int nextOpenIndex = latestOpenIndex + 1;
+            if(nextOpenIndex == daySchedules.size())
+                nextOpenIndex = 0;
+            DaySchedule nextOpenSchedule = daySchedules.get(nextOpenIndex);
+
+            if(currentDay == nextOpenSchedule.getDay())
+                isOpen = (currentTime.compareTo(nextOpenSchedule.getStartTime()) >= 0);
+            else
+                isOpen = false;
+
+            return isOpen;
+        }
+    }
+
     // Call this if it is currently closed
-    // format: "HH:HH,d" where HH:HH is the 24 hour format and d is the integer value of the day
+    // format: "HH:HH(,d)" where HH:HH is the 24 hour format and d is the integer value of the day IF it is not today
     // Uses Calendar day format: 1 = Sunday, 7 = Saturday
     // Returns null if it is currently open
     public String getNextOpeningTime() {
@@ -33,7 +77,13 @@ public class RestaurantSchedule {
         if(index == daySchedules.size())
             index = 0;
 
-        return daySchedules.get(index).getStartTime();
+        DaySchedule daySchedule = daySchedules.get(index);
+
+        String returnStr = daySchedule.getStartTime();
+        if(daySchedule.getDay() != currentDay)
+            returnStr += String.format(",%d", currentDay);
+
+        return returnStr;
     }
 
     // Call this if it is currently open
@@ -44,89 +94,72 @@ public class RestaurantSchedule {
         if(!isOpen)
             return null;
 
-        int index =
+        // Get index of current schedule
+        int index = getIndexOfLatestDaySchedule();
+        return daySchedules.get(index).getEndTime();
     }
 
-    /* TODO may not need this
-    public DaySchedule getScheduleAtDay(int calendarDay) {
-        for(DaySchedule ds : daySchedules) {
-            if(ds.getDay() == calendarDay) {
-                return ds;
+    // Helper function: Returns the index of daySchedules of the current or most recent window
+    // Assumes daily schedules on yelp are properly ordered
+    // TODO find out if this is actually the case when yelp API works
+    private int getIndexOfLatestDaySchedule() {
+        // Iterate with index because it is needed
+        int index = 0;
+        while(index < daySchedules.size()) {
+            // Used for shorthand purposes
+            DaySchedule current = daySchedules.get(index);
+
+            // Increment and skip other checks if current index is earlier in the week than today
+            if(current.getDay() < currentDay) {
+                index++;
+                continue;
             }
+
+            // Stop if current index has passed current day
+            // Decrement index
+            if(current.getDay() > currentDay) {
+                index--;
+                break;
+            }
+
+            // The schedule being looked at is today
+            // If the shift has not started yet, return the previous index
+            // Else, increment by 1
+            if(currentTime.compareTo(current.getStartTime()) < 0) {
+                index--;
+                break;
+            }
+            index++;
         }
-        return null;
+
+        // If the loop was immediately exited, or the end was reached,
+        // then the schedule at the last index was the most recent shift
+        if(index == -1 || index == daySchedules.size())
+            index--;
+
+        return index;
     }
 
-    private DaySchedule getTodaySchedule() {
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    // Updates/initializes currentTime and currentDate
+    private void updateCurrentTime() {
+        Calendar c = Calendar.getInstance();
+        currentDay = c.get(Calendar.DAY_OF_WEEK);
 
+        int currentHour = c.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = c.get(Calendar.MINUTE);
 
-    }*/
+        // Format as "HHmm" string - identical format to Yelp and DaySchedule data
+        currentTime = String.format("%02d%02d", currentHour, currentMinute);
+    }
 
-    // Helper function - Use the java.util.Calendar day to get the day value stored in the Yelp returns
-
-
-    // Get yelp date integer format from
-    /* TODO may not need this
-    private static int getYelpDayFromDay(int calendarDay) {
-        // Adjust date format
-        int yelpDay = calendarDay - 2;
-        if(yelpDay == -1) // Sunday
-            yelpDay = 6;
-
-        return yelpDay;
-    } */
-
+    // Helper - Convert day format used in Yelp JSON to the day format that the object and database uses
+    // Yelp: 0 - 6, with Monday = 0
+    // Calendar: 1 - 7, with Sunday = 1;
     private static int getCalendarDayFromYelpDay(int yelpDay) {
         int cDay = yelpDay + 2;
         if(cDay == 8) // Sunday
             cDay = 1;
 
         return cDay;
-    }
-
-    // Returns the index of daySchedules of the current or most recent window
-    private int getIndexOfLatestDaySchedule() {
-        Calendar c = Calendar.getInstance();
-        int today = c.get(Calendar.DAY_OF_WEEK);
-
-        int currentHour = c.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = c.get(Calendar.MINUTE);
-
-        // Format as "HHmm" string
-        String currentTime = String.format("%02d%02d", currentHour, currentMinute);
-
-        // Iterate with index because it is needed
-        int index = 0;
-        while(index < daySchedules.size()) {
-            // Shorthand
-            DaySchedule current = daySchedules.get(index);
-
-            // Increment if it is earlier in the week than today
-            if(current.getDay() < today) {
-                index++;
-                continue;
-            }
-
-            // Stop if index has passed current day
-            // Decrement index
-            if(current.getDay() > today) {
-                index--;
-                break;
-            }
-
-            // The schedule being looked at is today
-            // If the shift has already started, increment by one
-            // If the shift has not started yet, return the previous index
-        }
-
-        // If the end was reached, then the schedule at the last index was the most recent shift
-        if(index == daySchedules.size())
-            index--;
-
-        return index;
-
-        // TODO
-
     }
 }

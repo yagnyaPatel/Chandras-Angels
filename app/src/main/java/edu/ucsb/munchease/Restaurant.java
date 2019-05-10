@@ -13,7 +13,7 @@ public class Restaurant {
 
     private String address;
 
-    private RestaurantSchedule schedule;
+    private RestaurantSchedule schedule; // Contains all time and schedule related info
 
     private int votes;
 
@@ -98,7 +98,6 @@ public class Restaurant {
 
         // Get
         // TODO stub
-        return new Restaurant();
     }
 
     /**
@@ -142,6 +141,14 @@ public class Restaurant {
     }
 
     /**
+     * Returns the Restaurant Schedule object
+     * @return The Restaurant Schedule object
+     */
+    public RestaurantSchedule getRestaurantSchedule() {
+        return schedule;
+    }
+
+    /**
      * Returns the number of votes the restaurant has in the current party
      * @return The number of votes the restaurant has in the current party
      */
@@ -162,4 +169,7 @@ public class Restaurant {
     public void downvote() {
         votes--;
     }
+
+
+    //
 }
