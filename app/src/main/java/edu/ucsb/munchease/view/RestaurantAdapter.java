@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 @Override
                 public void onClick(View v) {
                     Log.d("---ADAPTER---", "Upvote button clicked");
-                    docRef.update("restaurants.0.votes", 5); //TODO Fix this line
+                    //docRef.update("members", FieldValue.increment(1)); //TODO Fix this line
                 }
             });
 
@@ -76,6 +77,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 @Override
                 public void onClick(View v) {
                     Log.d("---ADAPTER---", "Downvote button clicked");
+                    docRef.update("members", FieldValue.increment(-1));
                 }
             });
         }
