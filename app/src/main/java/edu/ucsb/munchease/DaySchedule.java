@@ -1,16 +1,17 @@
 package edu.ucsb.munchease;
 
 public class DaySchedule {
-    private int day; // same format as java.util.Calendar enum: 1 = Sunday, 7 = Saturday
+    private boolean isOvernight;
     private String start;
     private String end;
-    private boolean isOvernight;
+    private int day; // same format as java.util.Calendar enum: 1 = Sunday, 7 = Saturday
 
-    public DaySchedule(int day, String start, String end, boolean isOvernight) {
-        this.day = day;
+
+    public DaySchedule(boolean isOvernight, String start, String end, int day) {
+        this.isOvernight = isOvernight;
         this.start = start;
         this.end = end;
-        this.isOvernight = isOvernight;
+        this.day = day;
     }
 
     public int getDay() { return day; }

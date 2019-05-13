@@ -13,15 +13,18 @@ public class Restaurant {
 
     private String address;
 
+    private double latitude;
+    private double longitude;
+
     private RestaurantSchedule schedule; // Contains all time and schedule related info
 
     private int votes;
 
     /**
      *Default Constructor - Leaves everything empty
+     * TODO may not need
      */
-    public Restaurant() {
-    }
+    // public Restaurant() { }
 
     /**
      * Initializes most data members to the passed parameters
@@ -31,6 +34,10 @@ public class Restaurant {
      * @param price The price of the restaurant, from  $ to $$$$
      * @param address The street address of the restaurant
      */
+
+    // TODO delete this if necessary
+
+    /** Old Constructor
     public Restaurant(String name, String rating, int reviewCount, String price, String address) {
         this.name = name;
         this.rating = rating;
@@ -39,12 +46,13 @@ public class Restaurant {
         this.address = address;
         this.votes = 0;
     }
+    */
 
     // TODO delete this
     // Example with only things we care about
 
 
-    /*
+    /**
     {
   "alias": "gary-danko-san-francisco",
   "name": "Gary Danko",
@@ -86,18 +94,36 @@ public class Restaurant {
 
 
     public Restaurant(String jsonInput) {
-        // Declare variables
-        // alias;
-        // name;
-        // url;
-        // reviewCount; // review_count, numberOfReviews
-
         // Get entire object
         JsonElement element = new JsonParser().parse(jsonInput);
-        JsonObject object = element.getAsJsonObject();
+        JsonObject response = element.getAsJsonObject();
 
-        // Get
-        // TODO stub
+        alias = response.get("alias").getAsString();
+        name = response.get("name").getAsString();
+        url = response.get("url").getAsString();
+        rating = response.get("rating").getAsString();
+        reviewCount = response.get("review_count").getAsInt();
+        price = response.get("price").getAsString();
+
+        // Get display address from location object
+        JsonObject location = response.get("location").getAsJsonObject();
+        JsonArray addrArray = location.get("display_address").getAsJsonArray();
+        // Iterate through array to concatenatae to string
+        address = new String();
+        for(int i = 0; i < addrArray.size(); i++) {
+            address += addrArray.get(i).getAsString();
+            // Add newline to all lines except last
+            if(i < addrArray.size() - 1)
+                address += "\n";
+        }
+
+        // Get latitude and longitude from coordinates array
+        JsonObject coordinates = response.get("coordinates").getAsJsonObject();
+        latitude = coordinates.get("latitude").getAsDouble();
+        longitude = coordinates.get("longitude").getAsDouble();
+
+        JsonArray hours = response.get("hours").getAsJsonArray();
+        schedule = new RestaurantSchedule(hours);
     }
 
     /**

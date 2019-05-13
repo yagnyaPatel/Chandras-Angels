@@ -13,17 +13,49 @@ public class RestaurantSchedule {
     private String currentTime;
     private int currentDay; // 1 - 7, Sunday = 1
 
+
+    // "hours": [
+    //    {
+    //      "open": [
+    //        {
+    //          "is_overnight": false,
+    //          "start": "1730",
+    //          "end": "2200",
+    //          "day": 0
+    //        } // and so on
+    //      ],
+    //      "is_open_now": false
+    //    }
+    //  ]
+
+
     // Construct from JSON hours[] array from yelp return
     // Throw exception if bad array
-    public RestaurantSchedule(JsonArray hours)
-            throws IllegalArgumentException {
+    public RestaurantSchedule(JsonArray hoursArray)
+            throws InvalidJsonException {
+        // Initialize ArrayList
         daySchedules = new ArrayList<DaySchedule>();
 
-        // TODO: Parse JSON into arguments
-        // TODO: Convert yelp day to calendar format before inserting
+        // Get array of schedules to iterate through
+        JsonObject hours = hoursArray.get(0).getAsJsonObject();
+        JsonArray openArray = hours.get("open").getAsJsonArray();
 
-        // Update isOpen if it is out of date in the database
-        // currentTime and currentDate are initialized here
+        for(int i = 0; i < openArray.size(); i++) {
+            JsonObject open = openArray.get(i).getAsJsonObject();
+            boolean isOvernight =  open.get("is_overnight").getAsBoolean();
+            String start = open.get("start").getAsString();
+            String end = open.get("end").getAsString();
+            int yelpDay = open.get("day").getAsInt();
+
+            int day = getCalendarDayFromYelpDay(yelpDay);
+
+            DaySchedule ds = new DaySchedule(isOvernight, start, end, day);
+            daySchedules.add(ds);
+        }
+
+        // Get isOpen from Yelp response and update
+        // currentTime and currentDate are also initialized in updateIsOpen()
+        isOpen = hours.get("is_open_now").getAsBoolean();
         updateIsOpen();
     }
 
