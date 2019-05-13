@@ -21,12 +21,6 @@ public class Restaurant {
     private int votes;
 
     /**
-     *Default Constructor - Leaves everything empty
-     * TODO may not need
-     */
-    // public Restaurant() { }
-
-    /**
      * Initializes most data members to the passed parameters
      * @param name The name of the restaurant
      * @param rating The rating of the restaurant, from 1 to 5 in increments of 0.5
@@ -34,97 +28,33 @@ public class Restaurant {
      * @param price The price of the restaurant, from  $ to $$$$
      * @param address The street address of the restaurant
      */
+    public Restaurant(String alias, String name, String url, String rating,
+                      int reviewCount, String price, String address, double latitude,
+                      double longitude, RestaurantSchedule schedule, int votes) {
 
-    // TODO delete this if necessary
-
-    /** Old Constructor
-    public Restaurant(String name, String rating, int reviewCount, String price, String address) {
+        this.alias = alias;
         this.name = name;
+        this.url = url;
         this.rating = rating;
         this.reviewCount = reviewCount;
         this.price = price;
         this.address = address;
-        this.votes = 0;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.schedule = schedule;
+        this.votes = votes;
     }
-    */
 
     // TODO delete this
     // Example with only things we care about
 
 
     /**
-    {
-  "alias": "gary-danko-san-francisco",
-  "name": "Gary Danko",
-  "url": "httk1CeT8POg",
-  "review_count": 5296,
-  "categories": [
-    {
-      "alias": "newamerican",
-      "title": "American (New)"
-    } // and others
-  ],
-  "rating": 4.5,
-  "location": {
-    "display_address": [
-      "800 N Point St",
-      "San Francisco, CA 94109"
-    ],
-  },
-  "coordinates": {
-    "latitude": 37.80587,
-    "longitude": -122.42058
-  },
-  "price": "$$$$",
-  "hours": [
-    {
-      "open": [
-        {
-          "is_overnight": false,
-          "start": "1730",
-          "end": "2200",
-          "day": 0
-        } // and so on
-      ],
-      "is_open_now": false
-    }
-  ]
-}
+
 */
 
 
-    public Restaurant(String jsonInput) {
-        // Get entire object
-        JsonElement element = new JsonParser().parse(jsonInput);
-        JsonObject response = element.getAsJsonObject();
 
-        alias = response.get("alias").getAsString();
-        name = response.get("name").getAsString();
-        url = response.get("url").getAsString();
-        rating = response.get("rating").getAsString();
-        reviewCount = response.get("review_count").getAsInt();
-        price = response.get("price").getAsString();
-
-        // Get display address from location object
-        JsonObject location = response.get("location").getAsJsonObject();
-        JsonArray addrArray = location.get("display_address").getAsJsonArray();
-        // Iterate through array to concatenatae to string
-        address = new String();
-        for(int i = 0; i < addrArray.size(); i++) {
-            address += addrArray.get(i).getAsString();
-            // Add newline to all lines except last
-            if(i < addrArray.size() - 1)
-                address += "\n";
-        }
-
-        // Get latitude and longitude from coordinates array
-        JsonObject coordinates = response.get("coordinates").getAsJsonObject();
-        latitude = coordinates.get("latitude").getAsDouble();
-        longitude = coordinates.get("longitude").getAsDouble();
-
-        JsonArray hours = response.get("hours").getAsJsonArray();
-        schedule = new RestaurantSchedule(hours);
-    }
 
     /**
      * Returns the name of the restaurant
@@ -196,6 +126,4 @@ public class Restaurant {
         votes--;
     }
 
-
-    //
 }

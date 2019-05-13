@@ -13,55 +13,39 @@ public class RestaurantSchedule {
     private String currentTime;
     private int currentDay; // 1 - 7, Sunday = 1
 
-
-    // "hours": [
-    //    {
-    //      "open": [
-    //        {
-    //          "is_overnight": false,
-    //          "start": "1730",
-    //          "end": "2200",
-    //          "day": 0
-    //        } // and so on
-    //      ],
-    //      "is_open_now": false
-    //    }
-    //  ]
-
-
-    // Construct from JSON hours[] array from yelp return
-    // Throw exception if bad array
-    public RestaurantSchedule(JsonArray hoursArray)
-            throws InvalidJsonException {
-        // Initialize ArrayList
-        daySchedules = new ArrayList<DaySchedule>();
-
-        // Get array of schedules to iterate through
-        JsonObject hours = hoursArray.get(0).getAsJsonObject();
-        JsonArray openArray = hours.get("open").getAsJsonArray();
-
-        for(int i = 0; i < openArray.size(); i++) {
-            JsonObject open = openArray.get(i).getAsJsonObject();
-            boolean isOvernight =  open.get("is_overnight").getAsBoolean();
-            String start = open.get("start").getAsString();
-            String end = open.get("end").getAsString();
-            int yelpDay = open.get("day").getAsInt();
-
-            int day = getCalendarDayFromYelpDay(yelpDay);
-
-            DaySchedule ds = new DaySchedule(isOvernight, start, end, day);
-            daySchedules.add(ds);
-        }
-
-        // Get isOpen from Yelp response and update
-        // currentTime and currentDate are also initialized in updateIsOpen()
-        isOpen = hours.get("is_open_now").getAsBoolean();
+    /**
+     * Constructor that sets all fields to parameters
+     * @param isOpen Boolean indicating if the restaurant is open right now
+     * @param daySchedules ArrayList of DaySchedule objects
+     */
+    public RestaurantSchedule (boolean isOpen, ArrayList<DaySchedule> daySchedules) {
+        this.isOpen = isOpen;
+        this.daySchedules = daySchedules;
+        // Update isOpen, currentTime, currentDay
         updateIsOpen();
     }
 
+    /** isOpen accessor
+     * @return Boolean indicating if the restaurant is open right now
+     */
     public boolean getIsOpen() { return isOpen; }
 
-    /*
+    /** Schedule size accessor
+     * @return The number of DaySchedule objects schedule
+     */
+    public int getScheduleSize() { return daySchedules.size(); }
+
+    /**
+     *
+     * @param index The index of the DaySchedule to be accessed
+     * @return The DaySchedule at the specified index
+     * Use getScheduleSize() to ensure index is in bounds
+     */
+    public DaySchedule getDayScheduleAtIndex(int index) {
+        return daySchedules.get(index);
+    }
+
+    /**
      * Updates the isOpen field based on current system time
      * Also calls updateCurrentTime()
      * @return the updated isOpen field
@@ -182,16 +166,5 @@ public class RestaurantSchedule {
 
         // Format as "HHmm" string - identical format to Yelp and DaySchedule data
         currentTime = String.format("%02d%02d", currentHour, currentMinute);
-    }
-
-    // Helper - Convert day format used in Yelp JSON to the day format that the object and database uses
-    // Yelp: 0 - 6, with Monday = 0
-    // Calendar: 1 - 7, with Sunday = 1;
-    private static int getCalendarDayFromYelpDay(int yelpDay) {
-        int cDay = yelpDay + 2;
-        if(cDay == 8) // Sunday
-            cDay = 1;
-
-        return cDay;
     }
 }
