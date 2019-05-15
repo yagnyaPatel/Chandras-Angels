@@ -14,7 +14,7 @@ public class RestaurantSchedule {
     private int currentDay; // 1 - 7, Sunday = 1
 
     /**
-     * Constructor that sets all fields to parameters
+     * Constructor that sets all fields to parameters - see RestaurantParser for more detailed parsing
      * @param isOpen Boolean indicating if the restaurant is open right now
      * @param daySchedules ArrayList of DaySchedule objects
      */
@@ -69,6 +69,7 @@ public class RestaurantSchedule {
             int nextOpenIndex = latestOpenIndex + 1;
             if(nextOpenIndex == daySchedules.size())
                 nextOpenIndex = 0;
+
             DaySchedule nextOpenSchedule = daySchedules.get(nextOpenIndex);
 
             if(currentDay == nextOpenSchedule.getDay())
@@ -150,8 +151,10 @@ public class RestaurantSchedule {
 
         // If the loop was immediately exited, or the end was reached,
         // then the schedule at the last index was the most recent shift
-        if(index == -1 || index == daySchedules.size())
+        if(index == daySchedules.size())
             index--;
+        if(index == -1)
+            index = daySchedules.size() - 1;
 
         return index;
     }
