@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class Searcheable extends AppCompatActivity {
-    @Override
+    String query = "";
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
@@ -26,12 +26,11 @@ public class Searcheable extends AppCompatActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            doMySearch(query);
         }
     }
     //String inputString = ""; //Placeholder for the input from the query
     YelpFusionApiFactory apiFactory = new YelpFusionApiFactory();
-    public Response<SearchResponse>(String query){
+    public Response<SearchResponse> getResponse(){
         YelpFusionApi yelpFusionApi = apiFactory.createAPI("_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ-Q04YRy_XAXHYx");
         Map<String, String> params = new HashMap<>();
         // general params
@@ -42,6 +41,7 @@ public class Searcheable extends AppCompatActivity {
         return response;
     };
     call.enqueue(callback);
+
 }
 /*
 
