@@ -149,7 +149,8 @@ public class RestaurantParser {
         // Iterate insertion index until day order is maintained
         // In the event of a tie, the element will be inserted at the end of the block with the same day value
         int index = 0;
-        while(schedule.getDay() >= daySchedules.get(index).getDay()) {
+        while(index < daySchedules.size() &&
+                schedule.getDay() >= daySchedules.get(index).getDay()) {
             index++;
         }
 

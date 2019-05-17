@@ -1,7 +1,5 @@
 package edu.ucsb.munchease;
 
-import com.google.gson.*;
-
 public class Restaurant {
     private String alias;
     private String name;
@@ -53,8 +51,11 @@ public class Restaurant {
 
 */
 
-
-
+    /**
+     * Returns the unique Yelp alias of the restaurant
+     * @return the Yelp alias of the restaurant
+     */
+    public String getAlias() { return alias; }
 
     /**
      * Returns the name of the restaurant
@@ -63,6 +64,12 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
+    /**
+     * Returns the restaurant URL
+     * @return The restaurant URL
+     */
+    public String getUrl() { return url; }
 
     /**
      * Returns the rating of the restaurant, from 1.0 to 5.0 in increments of 0.5
@@ -95,6 +102,18 @@ public class Restaurant {
     public String getAddress() {
         return address;
     }
+
+    /**
+     * Returns the GPS latitude of the restaurant
+     * @return the GPS latitude of the restaurant
+     */
+    public double getLatitude() { return latitude; }
+
+    /**
+     * Returns the GPS longitude of the restaurant
+     * @return the GPS longitude of the restaurant
+     */
+    public double getLongitude() { return longitude; }
 
     /**
      * Returns the Restaurant Schedule object

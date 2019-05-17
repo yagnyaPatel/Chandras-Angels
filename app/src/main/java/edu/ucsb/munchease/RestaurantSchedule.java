@@ -2,7 +2,6 @@ package edu.ucsb.munchease;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import com.google.gson.*;
 
 public class RestaurantSchedule {
     private boolean isOpen;
@@ -51,38 +50,24 @@ public class RestaurantSchedule {
      * @return the updated isOpen field
      */
     public boolean updateIsOpen() {
-
-        // Get the index of most recent open shift pre-time update
-        int latestOpenIndex = getIndexOfLatestDaySchedule();
-        // Update date and time for
+        // Update date and time values
         updateCurrentTime();
+        // Get the index of most recent open shift
+        int latestOpenIndex = getIndexOfLatestDaySchedule();
+        DaySchedule latestOpenSchedule = daySchedules.get(latestOpenIndex);
 
-        if(isOpen) {
-            // Get close time of shift in which it was currently open
-            String endTime = daySchedules.get(latestOpenIndex).getEndTime();
-            isOpen = (currentTime.compareTo(endTime) < 0);
-
+        if(currentDay != latestOpenSchedule.getDay()) {
+            isOpen = false;
             return isOpen;
         }
-        else {
-            // Get next schedule of open time (with outdated time)
-            int nextOpenIndex = latestOpenIndex + 1;
-            if(nextOpenIndex == daySchedules.size())
-                nextOpenIndex = 0;
 
-            DaySchedule nextOpenSchedule = daySchedules.get(nextOpenIndex);
-
-            if(currentDay == nextOpenSchedule.getDay())
-                isOpen = (currentTime.compareTo(nextOpenSchedule.getStartTime()) >= 0);
-            else
-                isOpen = false;
-
-            return isOpen;
-        }
+        // Same day as the latest open schedule - return true if current time is before end time
+        isOpen = currentTime.compareTo(latestOpenSchedule.getEndTime()) < 0;
+        return isOpen;
     }
 
     // Call this if it is currently closed
-    // format: "HH:HH(,d)" where HH:HH is the 24 hour format and d is the integer value of the day IF it is not today
+    // format: "HH:HH,d" where HH:HH is the 24 hour format and d is the integer value of the day
     // Uses Calendar day format: 1 = Sunday, 7 = Saturday
     // Returns null if it is currently open
     public String getNextOpeningTime() {
@@ -96,9 +81,7 @@ public class RestaurantSchedule {
 
         DaySchedule daySchedule = daySchedules.get(index);
 
-        String returnStr = daySchedule.getStartTime();
-        if(daySchedule.getDay() != currentDay)
-            returnStr += String.format(",%d", currentDay);
+        String returnStr = String.format("%s,%d",daySchedule.getStartTime(), daySchedule.getDay());
 
         return returnStr;
     }
@@ -117,8 +100,7 @@ public class RestaurantSchedule {
     }
 
     // Helper function: Returns the index of daySchedules of the current or most recent window
-    // Assumes daily schedules on yelp are properly ordered
-    // TODO find out if this is actually the case when yelp API works
+    // TODO Compensate for is_overnight
     private int getIndexOfLatestDaySchedule() {
         // Iterate with index because it is needed
         int index = 0;
