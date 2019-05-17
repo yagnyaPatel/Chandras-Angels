@@ -17,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Random;
 
@@ -70,7 +72,9 @@ public class PartyHomeActivity extends AppCompatActivity {
         populateDatabase();
         setUpRestaurantList();
         //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
-        setUpDatabaseListener();
+//        setUpDatabaseListener();
+//        getRestaurantsFromDB();
+        setUpRestaurantsListener();
 
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
         button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
@@ -181,14 +185,61 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                     party.setMembers(tempParty.getMembers());
 
+                    /*party.clearRestaurants();
+
+                    int startPosition = party.getRestaurants().size();
+
+                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
+                        party.addRestaurant(tempParty.getRestaurants().get(i));
+                    }
+                    
+
+                    mAdapter.notifyDataSetChanged();*/
+                } else {
+                    Log.d(TAG, "Current data: null");
+                }
+            }
+        });
+    }
+
+    private void getRestaurantsFromDB() {
+        restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                String TAG = "---restaurants---";
+                if (task.isSuccessful()) {
+                    party.clearRestaurants();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        party.addRestaurant(document.toObject(Restaurant.class));
+                    }
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void setUpRestaurantsListener() {
+        restaurantsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                String TAG = "---LISTENER---";
+
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (queryDocumentSnapshots != null) {
+                    Log.d(TAG, "Got query of restaurants");
+
                     party.clearRestaurants();
 
-//                    int startPosition = party.getRestaurants().size();
-//
-//                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
-//                        party.addRestaurant(tempParty.getRestaurants().get(i));
-//                    }
-                    
+                    for(DocumentSnapshot d : queryDocumentSnapshots.getDocuments()) {
+                        party.addRestaurant(d.toObject(Restaurant.class));
+                    }
 
                     mAdapter.notifyDataSetChanged();
                 } else {
