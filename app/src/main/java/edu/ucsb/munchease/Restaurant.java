@@ -83,7 +83,7 @@ public class Restaurant {
      * Returns the number of Yelp reviews the restaurant has
      * @return The number of Yelp reviews the restaurant has
      */
-    public int getNumberOfReviews() {
+    public int getReviewCount() {
         return reviewCount;
     }
 
