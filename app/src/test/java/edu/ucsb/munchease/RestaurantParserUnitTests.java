@@ -77,4 +77,11 @@ public class RestaurantParserUnitTests {
         json = SampleJsonRestaurants.incompleteExample;
         Restaurant r = RestaurantParser.parseRestaurantFromYelpResponse(json);
     }
+
+    @Test
+    public void testRestaurantParser_0() throws InvalidJsonException {
+        json = SampleJsonRestaurants.completeExample;
+        Restaurant r = RestaurantParser.parseRestaurantFromYelpResponse(json);
+        // TODO finish
+    }
 }
