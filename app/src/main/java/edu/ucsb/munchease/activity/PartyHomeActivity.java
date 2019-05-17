@@ -112,11 +112,6 @@ public class PartyHomeActivity extends AppCompatActivity {
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
         partyDocRef = db.collection("parties").document("123456");
-        testRef = db.collection("parties").document("123456").collection("restaurants").document("epic");
-
-        Restaurant testRestaurant  = new Restaurant("Subcollection Restaurant 1", "5", 25, "$$", "1234 The Street");
-        testRef.set(testRestaurant);
-
         restaurantsRef = partyDocRef.collection("restaurants");
     }
 
@@ -130,6 +125,10 @@ public class PartyHomeActivity extends AppCompatActivity {
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
+
+        for(Restaurant r : party2.getRestaurants()) {
+            restaurantsRef.document(r.getName()).set(r);
+        }
     }
 
     /**
@@ -146,6 +145,7 @@ public class PartyHomeActivity extends AppCompatActivity {
                         Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
 
                         Party tempParty = document.toObject(Party.class);
+
                         int startPosition = party.getRestaurants().size();
 
                         for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
@@ -179,13 +179,16 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                     Party tempParty = documentSnapshot.toObject(Party.class);
 
+                    party.setMembers(tempParty.getMembers());
+
                     party.clearRestaurants();
 
-                    int startPosition = party.getRestaurants().size();
-
-                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
-                        party.addRestaurant(tempParty.getRestaurants().get(i));
-                    }
+//                    int startPosition = party.getRestaurants().size();
+//
+//                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
+//                        party.addRestaurant(tempParty.getRestaurants().get(i));
+//                    }
+                    
 
                     mAdapter.notifyDataSetChanged();
                 } else {
@@ -236,6 +239,8 @@ public class PartyHomeActivity extends AppCompatActivity {
                         tempParty.addRestaurant(r);
 
                         db.collection("parties").document(tempParty.getPartyID()).set(tempParty);
+
+                        restaurantsRef.document(r.getName()).set(r);
                     } else {
                         Log.d("---RETRIEVE---", "No such document");
                     }
