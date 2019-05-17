@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -45,7 +46,9 @@ public class PartyHomeActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private FirebaseFirestore db;
-    private DocumentReference docRef;
+    private DocumentReference partyDocRef;
+    private DocumentReference testRef;
+    private CollectionReference restaurantsRef;
 
     //------------------------------------------------------------------
     // *** MEMBER FUNCTIONS ***
@@ -82,7 +85,7 @@ public class PartyHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 party.clearRestaurants();
-                docRef.set(party);
+                partyDocRef.set(party);
             }
         });
     }
@@ -108,7 +111,13 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
-        docRef = db.collection("parties").document("123456");
+        partyDocRef = db.collection("parties").document("123456");
+        testRef = db.collection("parties").document("123456").collection("restaurants").document("epic");
+
+        Restaurant testRestaurant  = new Restaurant("Subcollection Restaurant 1", "5", 25, "$$", "1234 The Street");
+        testRef.set(testRestaurant);
+
+        restaurantsRef = partyDocRef.collection("restaurants");
     }
 
     /**
@@ -128,7 +137,7 @@ public class PartyHomeActivity extends AppCompatActivity {
      * Currently does not properly support updating on data changes, and will just add to the end of the list instead of updating items
      */
     private void retrievePartyFromDatabase() {
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -155,7 +164,7 @@ public class PartyHomeActivity extends AppCompatActivity {
     }
 
     private void setUpDatabaseListener() {
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        partyDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 String TAG = "---LISTENER---";
@@ -215,7 +224,7 @@ public class PartyHomeActivity extends AppCompatActivity {
      * @param r The restaurant to be added to the party
      */
     private void addRestaurantToParty(final Restaurant r) {
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
