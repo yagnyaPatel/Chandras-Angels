@@ -90,6 +90,7 @@ public class PartyHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 party.clearRestaurants();
                 partyDocRef.set(party);
+                clearRestaurants();
             }
         });
     }
@@ -297,6 +298,23 @@ public class PartyHomeActivity extends AppCompatActivity {
                     }
                 } else {
                     Log.d("---RETRIEVE---", "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void clearRestaurants() {
+        restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                String TAG = "---CLEAR---";
+                if(task.isSuccessful()) {
+                    for(QueryDocumentSnapshot snapshot : task.getResult()) {
+                        Restaurant temp = snapshot.toObject(Restaurant.class);
+                        restaurantsRef.document(temp.getName()).delete();
+                    }
+                } else {
+                    Log.d(TAG, "Failed to retrieve restaurant collection");
                 }
             }
         });
