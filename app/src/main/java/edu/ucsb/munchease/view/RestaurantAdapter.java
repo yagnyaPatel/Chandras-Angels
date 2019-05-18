@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,8 +35,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     // you provide access to all the views for a data item in a view holder
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
+        private Restaurant restaurant;
+
         private FirebaseFirestore db;
         private DocumentReference docRef;
+        private CollectionReference restaurantsRef;
 
         //Basic information
         public TextView textView_restaurantName;
@@ -68,8 +72,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             button_upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("---ADAPTER---", "Upvote button clicked");
-                    //docRef.update("members", FieldValue.increment(1)); //TODO Fix this line
+                    Log.d("---ADAPTER---", "Upvote button clicked for " + restaurant.getName());
+                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(1));
                 }
             });
 
@@ -77,7 +81,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                 @Override
                 public void onClick(View v) {
                     Log.d("---ADAPTER---", "Downvote button clicked");
-                    docRef.update("members", FieldValue.increment(-1));
+                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(-1));
                 }
             });
         }
@@ -88,6 +92,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         private void setUpFirebase() {
             db = FirebaseFirestore.getInstance();
             docRef = db.collection("parties").document("123456");
+            restaurantsRef = docRef.collection("restaurants");
+        }
+
+        private void setRestaurant(Restaurant r) {
+            restaurant = r;
         }
     }
 
@@ -104,6 +113,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurants.get(position);
+
+        holder.setRestaurant(restaurant);
 
         holder.textView_restaurantName.setText(restaurant.getName());
         holder.textView_numberOfReviews.setText(restaurant.getNumberOfReviews() + " reviews");
