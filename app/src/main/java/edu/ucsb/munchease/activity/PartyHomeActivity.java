@@ -242,6 +242,8 @@ public class PartyHomeActivity extends AppCompatActivity {
                         party.addRestaurant(d.toObject(Restaurant.class));
                     }
 
+                    party.sortRestaurants();
+
                     mAdapter.notifyDataSetChanged();
                 } else {
                     Log.d(TAG, "Current data: null");

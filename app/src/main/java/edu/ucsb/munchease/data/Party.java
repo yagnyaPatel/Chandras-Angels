@@ -1,6 +1,8 @@
 package edu.ucsb.munchease.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Party {
     private ArrayList<Restaurant> restaurants;
@@ -88,5 +90,14 @@ public class Party {
      */
     public void clearRestaurants() {
         restaurants.clear();
+    }
+
+    public void sortRestaurants() {
+        Collections.sort(restaurants, new Comparator<Restaurant>() {
+            @Override
+            public int compare(Restaurant o1, Restaurant o2) {
+                return o2.getVotes() - o1.getVotes();
+            }
+        });
     }
 }
