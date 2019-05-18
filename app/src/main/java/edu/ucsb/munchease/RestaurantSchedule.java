@@ -49,10 +49,12 @@ public class RestaurantSchedule {
      * Also calls updateCurrentTime()
      * @return the updated isOpen field
      */
+
+    // TODO compensate for is_overnight
     public boolean updateIsOpen() {
         // Update date and time values
         updateCurrentTime();
-        // Get the index of most recent open shift
+        // Get the index of most recent open shift (either current or past)
         int latestOpenIndex = getIndexOfLatestDaySchedule();
         DaySchedule latestOpenSchedule = daySchedules.get(latestOpenIndex);
 
@@ -61,7 +63,7 @@ public class RestaurantSchedule {
             return isOpen;
         }
 
-        // Same day as the latest open schedule - return true if current time is before end time
+        // Same day as the latest open schedule - return true if latest schedule has not ended yet
         isOpen = currentTime.compareTo(latestOpenSchedule.getEndTime()) < 0;
         return isOpen;
     }

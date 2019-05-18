@@ -119,7 +119,7 @@ public class Restaurant {
      * Returns the Restaurant Schedule object
      * @return The Restaurant Schedule object
      */
-    public RestaurantSchedule getRestaurantSchedule() {
+    public RestaurantSchedule getSchedule() {
         return schedule;
     }
 

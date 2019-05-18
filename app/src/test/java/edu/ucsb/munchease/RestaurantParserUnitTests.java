@@ -38,9 +38,9 @@ public class RestaurantParserUnitTests {
         for(int i = 0; i < schedule.getScheduleSize(); i++) {
             DaySchedule ds = schedule.getDayScheduleAtIndex(i);
             assertFalse(ds.getIsOvernight());
-            assertTrue(ds.getStartTime().equals("1730"));
-            assertTrue(ds.getEndTime().equals("2200"));
-            assertEquals(i + 1, ds.getDay()); // Days should be in order from 1 - 7
+            assertEquals("1730", ds.getStartTime());
+            assertEquals("2200", ds.getEndTime());
+            assertEquals(ds.getDay(), i + 1); // Days should be in order from 1 - 7
         }
     }
 
@@ -82,6 +82,18 @@ public class RestaurantParserUnitTests {
     public void testRestaurantParser_0() throws InvalidJsonException {
         json = SampleJsonRestaurants.completeExample;
         Restaurant r = RestaurantParser.parseRestaurantFromYelpResponse(json);
-        // TODO finish
+
+        assertEquals("gary-danko-san-francisco", r.getAlias());
+        assertEquals("Gary Danko", r.getName());
+        assertEquals("https://www.yelp.com/biz/gary-danko-san-francisco?adjust_creative=wpr6gw4FnptTrk1CeT8POg&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_lookup&utm_source=wpr6gw4FnptTrk1CeT8POg",
+                r.getUrl());
+        assertEquals("4.5", r.getRating());
+        assertEquals(5296, r.getReviewCount());
+        assertEquals("$$$$", r.getPrice());
+        assertEquals("800 N Point St\nSan Francisco, CA 94109", r.getAddress());
+        assertEquals(37.80587, r.getLatitude(), 0.0001);
+        assertEquals(-122.42058, r.getLongitude(), 0.0001);
+
+        assertNotNull(r.getSchedule());
     }
 }
