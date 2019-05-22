@@ -5,12 +5,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Random;
 
 import edu.ucsb.munchease.R;
 
 public class SharePartyActivity extends AppCompatActivity {
 
     Button button_next;
+    TextView textView_sharePartyCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,8 @@ public class SharePartyActivity extends AppCompatActivity {
 
         //Make "NEXT" button (button_next) take you to the Party Home Activity (PartyHomeActivity)
         setUpButtonNext();
+
+        setUpSharePartyCode();
     }
 
     private void setUpButtonNext() {
@@ -30,5 +36,14 @@ public class SharePartyActivity extends AppCompatActivity {
                 startActivity(goToPartyHomeActivity);
             }
         });
+    }
+
+    private void setUpSharePartyCode() {
+        textView_sharePartyCode = findViewById(R.id.textView_sharePartyCode);
+
+        Random random = new Random();
+        int partyCode = random.nextInt(999999);
+
+        textView_sharePartyCode.setText(partyCode + "");
     }
 }
