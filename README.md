@@ -19,7 +19,7 @@ The platform will be a mobile app developed in Android Studio. Restaurant select
 2. Navigate to the MunchEase folder within the Chandras-Angels folder and select it as the project folder
 3. Run the app using Android Studio, either on an emulator or your Android device
 ## Functionality and Known Issues
-Current, the use can launch the app and create a dummy party.
+Currently, the use can launch the app and create a dummy party.
 
 ## License
 This project is licensed under the Apache License 2.0. The license can be viewed [here](LICENSE).

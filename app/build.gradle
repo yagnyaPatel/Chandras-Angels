@@ -47,4 +47,8 @@ repositories {
     google()
 }
 
+repositories {
+    google()
+}
+
 apply plugin: 'com.google.gms.google-services'

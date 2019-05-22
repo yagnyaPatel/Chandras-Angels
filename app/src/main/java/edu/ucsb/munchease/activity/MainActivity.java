@@ -1,20 +1,14 @@
-package edu.ucsb.munchease;
+package edu.ucsb.munchease.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import edu.ucsb.munchease.R;
 
 import com.google.firebase.auth.*;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //------------------------------------------------------------------
-        //BUTTON CONFIGURATION
+        // *** BUTTON CONFIGURATION ***
         //------------------------------------------------------------------
 
         //Make "CREATE" button (button_createParty) take you to the Share Party Activity (SharePartyActivity)
