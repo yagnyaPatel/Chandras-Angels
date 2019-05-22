@@ -1,9 +1,14 @@
 package edu.ucsb.munchease;
 
 import org.junit.Test;
-import org.junit.Assert.*;
 
 import com.google.gson.*;
+
+import edu.ucsb.munchease.data.DaySchedule;
+import edu.ucsb.munchease.data.InvalidJsonException;
+import edu.ucsb.munchease.data.Restaurant;
+import edu.ucsb.munchease.data.RestaurantParser;
+import edu.ucsb.munchease.data.RestaurantSchedule;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +20,7 @@ public class RestaurantParserUnitTests {
     // SCHEDULE PARSER TESTS
 
     // Test 1 - ensure InvalidJsonException is thrown on incomplete response
-    @Test(expected=InvalidJsonException.class)
+    @Test(expected= InvalidJsonException.class)
     public void testScheduleParserException() throws InvalidJsonException {
         json = SampleJsonRestaurantSchedules.incomplete;
         JsonObject obj = new JsonParser().parse(json).getAsJsonObject();

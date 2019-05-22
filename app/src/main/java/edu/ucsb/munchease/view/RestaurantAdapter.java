@@ -69,7 +69,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         Restaurant restaurant = restaurants.get(position);
 
         holder.textView_restaurantName.setText(restaurant.getName());
-        holder.textView_numberOfReviews.setText(restaurant.getNumberOfReviews() + " reviews");
+        holder.textView_numberOfReviews.setText(restaurant.getReviewCount() + " reviews");
         holder.textView_price.setText(restaurant.getPrice());
         holder.textView_votes.setText(restaurant.getVotes() + "");
         holder.imageView_stars.setImageResource(ratingImageHelper(restaurant.getRating()));

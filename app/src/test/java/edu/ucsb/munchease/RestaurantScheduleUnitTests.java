@@ -7,6 +7,11 @@ import static org.junit.Assert.*;
 import com.google.gson.*;
 import java.util.Calendar;
 
+import edu.ucsb.munchease.data.DaySchedule;
+import edu.ucsb.munchease.data.InvalidJsonException;
+import edu.ucsb.munchease.data.RestaurantParser;
+import edu.ucsb.munchease.data.RestaurantSchedule;
+
 public class RestaurantScheduleUnitTests {
     private RestaurantSchedule schedule; // Local schedule object to use in each test
     private Calendar c;
