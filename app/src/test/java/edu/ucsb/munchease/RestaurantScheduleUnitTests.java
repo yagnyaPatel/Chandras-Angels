@@ -65,15 +65,52 @@ public class RestaurantScheduleUnitTests {
         JsonArray hours = obj.get("hours").getAsJsonArray();
         schedule = RestaurantParser.parseScheduleFromYelpResponse(hours);
 
+        // Format: "HHmm,d"
         String nextOpeningTime = schedule.getNextOpeningTime();
 
         if(schedule.getIsOpen()) {
             assertNull(nextOpeningTime);
         } else {
-            //assertNull()
+            // Find the index of the latest open time (see RestaurantSchedule.getIndexOfLatestDaySchedule())
+            int index = 0;
+            while(index < schedule.getScheduleSize()) {
+                // Used for shorthand purposes
+                DaySchedule current = schedule.getDayScheduleAtIndex(index);
+
+                if(current.getDay() < today) {
+                    index++;
+                    continue;
+                }
+                if(current.getDay() > today) {
+                    index--;
+                    break;
+                }
+                if(currentTime.compareTo(current.getStartTime()) < 0) {
+                    index--;
+                    break;
+                }
+                index++;
+            }
+            if(index == schedule.getScheduleSize()) {
+                index--;
+            }
+            if(index == -1) {
+                index = schedule.getScheduleSize() - 1;
+            }
+
+            // Find index of next closing time
+            index++;
+            if(index == schedule.getScheduleSize()) {
+                index = 0;
+            }
+
+            // shorthand - DaySchedule of next opening time
+            DaySchedule ds = schedule.getDayScheduleAtIndex(index);
+
+            // Ensure correct time
+            assertEquals(ds.getStartTime(), nextOpeningTime.substring(0, 4));
+            assertEquals(Integer.toString(ds.getDay()), nextOpeningTime.substring(5));
         }
-        // TODO stub
-        fail();
     }
 
     public void testGetNextClosingTime(String json) throws InvalidJsonException {
@@ -129,22 +166,27 @@ public class RestaurantScheduleUnitTests {
         testGetNextOpeningTime(SampleJsonRestaurantSchedules.consistent);
     }
 
+    @Test
     public void testGetNextOpeningTime_1() throws InvalidJsonException {
         testGetNextOpeningTime(SampleJsonRestaurantSchedules.ascending);
     }
 
+    @Test
     public void testGetNextOpeningTime_2() throws InvalidJsonException {
         testGetNextOpeningTime(SampleJsonRestaurantSchedules.multipleSlotsInDay);
     }
 
+    @Test
     public void testGetNextClosingTime_0() throws InvalidJsonException {
         testGetNextClosingTime(SampleJsonRestaurantSchedules.consistent);
     }
 
+    @Test
     public void testGetNextClosingTime_1() throws InvalidJsonException {
         testGetNextClosingTime(SampleJsonRestaurantSchedules.ascending);
     }
 
+    @Test
     public void testGetNextClosingTime_2() throws InvalidJsonException {
         testGetNextClosingTime(SampleJsonRestaurantSchedules.multipleSlotsInDay);
     }

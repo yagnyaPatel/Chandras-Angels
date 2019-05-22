@@ -8,8 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b126a2ba-912b-469d-9249-c1d99ea94c5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantScheduleUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantScheduleUnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurantSchedules.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurantSchedules.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +43,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantParser.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="641">
+                <state relative-caret-position="1340">
                   <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
                   <folding>
                     <element signature="imports" expanded="true" />
@@ -55,8 +55,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantScheduleUnitTests.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="188">
-                  <caret line="75" selection-start-line="75" selection-end-line="75" />
+                <state relative-caret-position="80">
+                  <caret line="165" column="21" selection-start-line="165" selection-start-column="21" selection-end-line="165" selection-end-column="21" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -86,11 +86,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-800">
-                  <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+                <state relative-caret-position="-100">
+                  <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -98,7 +98,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurantSchedules.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="188">
@@ -147,14 +147,15 @@
         <option value="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/ScheduleParserUnitTests.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/Restaurant.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantParserUnitTests.java" />
-        <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurantSchedules.java" />
+        <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java" />
         <option value="$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantScheduleUnitTests.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="953" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
@@ -165,19 +166,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -194,6 +182,19 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -304,9 +305,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="munchease_in_app - 2019.05.17 at 14h 40m 45s.xml">
-      <configuration name="munchease in app" configurationId="AndroidJUnit" />
-    </history-entry>
     <history-entry file="munchease_in_app - 2019.05.17 at 14h 44m 20s.xml">
       <configuration name="munchease in app" configurationId="AndroidJUnit" />
     </history-entry>
@@ -334,12 +332,16 @@
     <history-entry file="munchease_in_app - 2019.05.18 at 15h 51m 21s.xml">
       <configuration name="munchease in app" configurationId="AndroidJUnit" />
     </history-entry>
+    <history-entry file="munchease_in_app - 2019.05.21 at 17h 02m 15s.xml">
+      <configuration name="munchease in app" configurationId="AndroidJUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.118336886" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.057569295" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
@@ -351,7 +353,7 @@
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" weight="0.32936078" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="4" weight="0.20693392" />
+      <window_info anchor="bottom" id="Build" order="4" weight="0.20476706" />
       <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.33152762" />
       <window_info anchor="bottom" id="Logcat" order="6" />
       <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
@@ -461,6 +463,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1340">
+          <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/Restaurant.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2220">
@@ -475,26 +487,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="69" column="55" selection-start-line="69" selection-start-column="55" selection-end-line="69" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-800">
-          <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurantSchedules.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
@@ -502,10 +494,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/RestaurantSchedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="106" column="30" selection-start-line="106" selection-start-column="30" selection-end-line="106" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/RestaurantScheduleUnitTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        <state relative-caret-position="80">
+          <caret line="165" column="21" selection-start-line="165" selection-start-column="21" selection-end-line="165" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

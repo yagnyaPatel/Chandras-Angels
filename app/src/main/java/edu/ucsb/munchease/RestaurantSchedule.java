@@ -104,7 +104,7 @@ public class RestaurantSchedule {
     // Helper function: Returns the index of daySchedules of the current or most recent window
     // TODO Compensate for is_overnight
     private int getIndexOfLatestDaySchedule() {
-        // Iterate with index because it is needed
+        // Iterate through the DaySchedules
         int index = 0;
         while(index < daySchedules.size()) {
             // Used for shorthand purposes
