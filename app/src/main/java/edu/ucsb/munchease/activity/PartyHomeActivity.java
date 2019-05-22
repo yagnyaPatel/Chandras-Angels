@@ -25,9 +25,14 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import edu.ucsb.munchease.R;
+import edu.ucsb.munchease.data.InvalidJsonException;
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
+import edu.ucsb.munchease.data.RestaurantParser;
 import edu.ucsb.munchease.view.RestaurantAdapter;
+
+// TODO Temporary
+import edu.ucsb.munchease.data.DummyJsonRestaurants;
 
 public class PartyHomeActivity extends AppCompatActivity {
 
@@ -125,8 +130,11 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void populateDatabase() {
         Party party2 = new Party();
-        party2.addRestaurant(new Restaurant("Default Restaurant", "5", 48, "$$", "1234 Default Street"));
-        //party2.addRestaurant(new Restaurant("DB Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+
+        try {
+            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
+            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
+        } catch(InvalidJsonException e) { } // Do nothing
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
@@ -253,8 +261,8 @@ public class PartyHomeActivity extends AppCompatActivity {
     }
 
     /**
-     * Generates a random restaurant
-     * @return a random restaurant
+     * Generates a random restaurant. Currently returns null
+     * @return a null pointer (TODO)
      */
     private Restaurant generateRandomRestaurant() {
         Random random = new Random();
@@ -272,8 +280,10 @@ public class PartyHomeActivity extends AppCompatActivity {
         int addressNum = random.nextInt(10000);
         String address = addressNum + " The Street";
 
-        Restaurant r = new Restaurant(restaurantName, rating, numberOfReviews, price, address);
-        return r;
+        // TODO Currently returns null
+        //Restaurant r = new Restaurant(restaurantName, rating, numberOfReviews, price, address);
+        //return r;
+        return null;
     }
 
     /**

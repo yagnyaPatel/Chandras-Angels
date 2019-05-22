@@ -3,7 +3,9 @@ package edu.ucsb.munchease;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ucsb.munchease.data.InvalidJsonException;
 import edu.ucsb.munchease.data.Restaurant;
+import edu.ucsb.munchease.data.RestaurantParser;
 
 import static org.junit.Assert.*;
 
@@ -18,32 +20,11 @@ public class RestaurantUnitTests {
 
     @Before
     public void setUp() {
-        restaurant1 = new Restaurant("Restaurant 1", "5", 10, "$$$$", "1000 Epic Street");
-    }
-
-    @Test
-    public void getName_isCorrect_1() {
-        assertEquals("Restaurant 1", restaurant1.getName());
-    }
-
-    @Test
-    public void getRating_isCorrect_1() {
-        assertEquals("5", restaurant1.getRating());
-    }
-
-    @Test
-    public void getNumberOfReviews_isCorrect_1() {
-        assertEquals(10, restaurant1.getNumberOfReviews());
-    }
-
-    @Test
-    public void getPrice_isCorrect_1() {
-        assertEquals("$$$$", restaurant1.getPrice());
-    }
-
-    @Test
-    public void getAddress_isCorrect_1() {
-        assertEquals("1000 Epic Street", restaurant1.getAddress());
+        try {
+            restaurant1 = RestaurantParser.parseRestaurantFromYelpResponse(SampleJsonRestaurants.completeExample);
+        } catch(InvalidJsonException e) {
+            restaurant1 = null;
+        }
     }
 
     @Test

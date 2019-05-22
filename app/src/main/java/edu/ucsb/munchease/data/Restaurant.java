@@ -1,38 +1,61 @@
 package edu.ucsb.munchease.data;
 
 public class Restaurant {
+    private String alias;
     private String name;
+    private String url;
 
     private String rating;
-    private int numberOfReviews;
+    private int reviewCount;
     private String price;
 
     private String address;
 
-    private int votes;
+    private double latitude;
+    private double longitude;
 
-    /**
-     *Default Constructor - Leaves everything empty
-     */
-    public Restaurant() {
-    }
+    private RestaurantSchedule schedule; // Contains all time and schedule related info
+
+    private int votes;
 
     /**
      * Initializes most data members to the passed parameters
      * @param name The name of the restaurant
      * @param rating The rating of the restaurant, from 1 to 5 in increments of 0.5
-     * @param numberOfReviews The number of Yelp reviews for the restaurant
+     * @param reviewCount The number of Yelp reviews for the restaurant
      * @param price The price of the restaurant, from  $ to $$$$
      * @param address The street address of the restaurant
      */
-    public Restaurant(String name, String rating, int numberOfReviews, String price, String address) {
+    public Restaurant(String alias, String name, String url, String rating,
+                      int reviewCount, String price, String address, double latitude,
+                      double longitude, RestaurantSchedule schedule, int votes) {
+
+        this.alias = alias;
         this.name = name;
+        this.url = url;
         this.rating = rating;
-        this.numberOfReviews = numberOfReviews;
+        this.reviewCount = reviewCount;
         this.price = price;
         this.address = address;
-        this.votes = 0;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.schedule = schedule;
+        this.votes = votes;
     }
+
+    // TODO delete this
+    // Example with only things we care about
+
+
+    /**
+
+*/
+
+    /**
+     * Returns the unique Yelp alias of the restaurant
+     * @return the Yelp alias of the restaurant
+     */
+    public String getAlias() { return alias; }
 
     /**
      * Returns the name of the restaurant
@@ -41,6 +64,12 @@ public class Restaurant {
     public String getName() {
         return name;
     }
+
+    /**
+     * Returns the restaurant URL
+     * @return The restaurant URL
+     */
+    public String getUrl() { return url; }
 
     /**
      * Returns the rating of the restaurant, from 1.0 to 5.0 in increments of 0.5
@@ -54,8 +83,8 @@ public class Restaurant {
      * Returns the number of Yelp reviews the restaurant has
      * @return The number of Yelp reviews the restaurant has
      */
-    public int getNumberOfReviews() {
-        return numberOfReviews;
+    public int getReviewCount() {
+        return reviewCount;
     }
 
     /**
@@ -72,6 +101,26 @@ public class Restaurant {
      */
     public String getAddress() {
         return address;
+    }
+
+    /**
+     * Returns the GPS latitude of the restaurant
+     * @return the GPS latitude of the restaurant
+     */
+    public double getLatitude() { return latitude; }
+
+    /**
+     * Returns the GPS longitude of the restaurant
+     * @return the GPS longitude of the restaurant
+     */
+    public double getLongitude() { return longitude; }
+
+    /**
+     * Returns the Restaurant Schedule object
+     * @return The Restaurant Schedule object
+     */
+    public RestaurantSchedule getSchedule() {
+        return schedule;
     }
 
     /**
@@ -95,4 +144,5 @@ public class Restaurant {
     public void downvote() {
         votes--;
     }
+
 }
