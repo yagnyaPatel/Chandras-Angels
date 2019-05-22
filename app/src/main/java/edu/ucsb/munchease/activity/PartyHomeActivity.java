@@ -72,8 +72,8 @@ public class PartyHomeActivity extends AppCompatActivity {
         populateDatabase();
         setUpRestaurantList();
         //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
-//        setUpDatabaseListener();
-//        getRestaurantsFromDB();
+        //setUpDatabaseListener();
+        //getRestaurantsFromDB();
         setUpRestaurantsListener();
 
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
@@ -125,8 +125,8 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void populateDatabase() {
         Party party2 = new Party();
-        party2.addRestaurant(new Restaurant("DB Restaurant 1", "5", 25, "$$", "1234 The Street"));
-        party2.addRestaurant(new Restaurant("DB Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
+        party2.addRestaurant(new Restaurant("Default Restaurant", "5", 48, "$$", "1234 Default Street"));
+        //party2.addRestaurant(new Restaurant("DB Restaurant 2", "3", 50, "$$$$", "5678 An Avenue"));
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
