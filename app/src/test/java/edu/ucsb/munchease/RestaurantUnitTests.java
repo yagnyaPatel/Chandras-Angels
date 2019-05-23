@@ -44,4 +44,7 @@ public class RestaurantUnitTests {
         restaurant1.downvote();
         assertEquals(0, restaurant1.getVotes());
     }
+
+    @Test
+    public void
 }
