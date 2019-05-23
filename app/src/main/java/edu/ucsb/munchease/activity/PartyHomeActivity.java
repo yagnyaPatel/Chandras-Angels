@@ -140,7 +140,7 @@ public class PartyHomeActivity extends AppCompatActivity {
      * Gets the latest information from the database and updates the RecyclerView adapter to reflect any changes
      * Currently does not properly support updating on data changes, and will just add to the end of the list instead of updating items
      */
-    private void retrievePartyFromDatabase() {
+    /*private void retrievePartyFromDatabase() {
         partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -186,7 +186,7 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                     party.setMembers(tempParty.getMembers());
 
-                    /*party.clearRestaurants();
+                    *//*party.clearRestaurants();
 
                     int startPosition = party.getRestaurants().size();
 
@@ -195,15 +195,15 @@ public class PartyHomeActivity extends AppCompatActivity {
                     }
                     
 
-                    mAdapter.notifyDataSetChanged();*/
+                    mAdapter.notifyDataSetChanged();*//*
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
             }
         });
-    }
+    }*/
 
-    private void getRestaurantsFromDB() {
+    /*private void getRestaurantsFromDB() {
         restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -220,7 +220,7 @@ public class PartyHomeActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void setUpRestaurantsListener() {
         restaurantsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
