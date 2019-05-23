@@ -38,14 +38,14 @@ public class Searcheable extends AppCompatActivity {
 
         public Parameters() {
             mParams.put("Authorization", "Bearer " + "_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ");
-            mParams.put('cache-control', "no-cache");
+            mParams.put("cache-control", "no-cache");
         }
     }
 
     Parameters mParams = new Parameters();
     // Request a string response from the provided URL.
     StringRequest stringRequest = new StringRequest(Request.Method.GET, url, mParams,
-            new Response.Listener<String>() {
+            new Response.Listener() {
                 @Override
                 public void onResponse(String response) {
                     // Display the first 500 characters of the response string.
