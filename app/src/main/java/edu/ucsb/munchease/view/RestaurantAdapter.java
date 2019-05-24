@@ -3,12 +3,18 @@ package edu.ucsb.munchease.view;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -29,11 +35,17 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     // you provide access to all the views for a data item in a view holder
     public static class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
+        private Restaurant restaurant;
+
+        private FirebaseFirestore db;
+        private DocumentReference docRef;
+        private CollectionReference restaurantsRef;
+
         //Basic information
         public TextView textView_restaurantName;
 
         //Voting components
-        public Button button_upvote, button_downvote;
+        public ImageButton button_upvote, button_downvote;
         public TextView textView_votes;
 
         //Rating components
@@ -44,6 +56,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         public RestaurantViewHolder(View v) {
             super(v);
 
+            setUpFirebase();
+
             textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
 
             textView_votes = v.findViewById(R.id.textView_votes);
@@ -51,6 +65,38 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             imageView_stars = v.findViewById(R.id.imageView_stars);
             textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
             textView_price = v.findViewById(R.id.textView_price);
+
+            button_upvote = v.findViewById(R.id.imageButton_upvote);
+            button_downvote = v.findViewById(R.id.imageButton_downvote);
+
+            button_upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("---ADAPTER---", "Upvote button clicked for " + restaurant.getName());
+                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(1));
+                }
+            });
+
+            button_downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("---ADAPTER---", "Downvote button clicked");
+                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(-1));
+                }
+            });
+        }
+
+        /**
+         * Initializes the Firebase references
+         */
+        private void setUpFirebase() {
+            db = FirebaseFirestore.getInstance();
+            docRef = db.collection("parties").document("123456");
+            restaurantsRef = docRef.collection("restaurants");
+        }
+
+        private void setRestaurant(Restaurant r) {
+            restaurant = r;
         }
     }
 
@@ -67,6 +113,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
         Restaurant restaurant = restaurants.get(position);
+
+        holder.setRestaurant(restaurant);
 
         holder.textView_restaurantName.setText(restaurant.getName());
         holder.textView_numberOfReviews.setText(restaurant.getReviewCount() + " reviews");
