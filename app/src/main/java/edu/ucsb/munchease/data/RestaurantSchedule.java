@@ -12,6 +12,10 @@ public class RestaurantSchedule {
     private String currentTime;
     private int currentDay; // 1 - 7, Sunday = 1
 
+    public RestaurantSchedule() {
+
+    }
+
     /**
      * Constructor that sets all fields to parameters - see RestaurantParser for more detailed parsing
      * @param isOpen Boolean indicating if the restaurant is open right now

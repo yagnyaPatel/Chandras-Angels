@@ -18,6 +18,10 @@ public class Restaurant {
 
     private int votes;
 
+    public Restaurant() {
+
+    }
+
     /**
      * Initializes most data members to the passed parameters
      * @param name The name of the restaurant
