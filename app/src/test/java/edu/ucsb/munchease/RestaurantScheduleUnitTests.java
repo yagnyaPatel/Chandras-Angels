@@ -64,6 +64,7 @@ public class RestaurantScheduleUnitTests {
         assertTrue(isOpen == found);
     }
 
+
     public void testGetNextOpeningTime(String json) throws InvalidJsonException {
         json = SampleJsonRestaurantSchedules.consistent;
         JsonObject obj = new JsonParser().parse(json).getAsJsonObject();
@@ -195,4 +196,21 @@ public class RestaurantScheduleUnitTests {
     public void testGetNextClosingTime_2() throws InvalidJsonException {
         testGetNextClosingTime(SampleJsonRestaurantSchedules.multipleSlotsInDay);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

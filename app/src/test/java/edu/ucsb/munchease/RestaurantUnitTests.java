@@ -102,4 +102,12 @@ public class RestaurantUnitTests {
         assertEquals(0, restaurant1.getVotes());
     }
 
+
+
+
+
+
+
+
+
 }
