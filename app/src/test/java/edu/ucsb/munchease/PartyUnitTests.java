@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
+import edu.ucsb.munchease.data.RestaurantParser;
+import edu.ucsb.munchease.data.InvalidJsonException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,7 +20,11 @@ public class PartyUnitTests {
 
     @Before
     public void setUp() {
-        restaurant1 = new Restaurant("Restaurant 1", "5", 25, "$$", "1234 The Street");
+        try {
+            restaurant1 = RestaurantParser.parseRestaurantFromYelpResponse(SampleJsonRestaurants.completeExample);
+        } catch(InvalidJsonException e) {
+            restaurant1 = null;
+        }
 
         party1 = new Party();
 
