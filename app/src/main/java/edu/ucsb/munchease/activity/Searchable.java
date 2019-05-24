@@ -23,9 +23,6 @@ import android.view.MenuInflater;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import retrofit2.Call;
-import retrofit2.Response;
-
 public class Searchable extends AppCompatActivity {
     String query = "";
     final TextView textView = (TextView) findViewById(R.id.text);
@@ -44,42 +41,21 @@ public class Searchable extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
     }
 
-    public String yelpRadiusSearch() {
-        Map<String, String> params = new HashMap<>();
-        params.put("term", "restaurants");
-        params.put("latitude", "34.411501");
-        params.put("longitude", "-119.853554");
-        params.put("radius", "1500");
+    @Override
+      public boolean onCreateOptionsMenu(Menu menu) {
+           MenuInflater inflater = getMenuInflater();
+           inflater.inflate(R.menu.options_menu, menu);
 
-        // send request
-        Call<SearchResponse> call = yelpApi.getBusinessSearch(params);
-        try {
-            Response<SearchResponse> response = call.execute();
-            return response.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+           // Associate searchable configuration with the SearchView
+           SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+           SearchView searchView =
+                   (SearchView) menu.findItem(R.id.search).getActionView();
+           searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+           return true;
     }
-            @Override
-              public boolean onCreateOptionsMenu(Menu menu) {
-                   MenuInflater inflater = getMenuInflater();
-                   inflater.inflate(R.menu.options_menu, menu);
-
-                   // Associate searchable configuration with the SearchView
-                   SearchManager searchManager =
-                        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                   SearchView searchView =
-                           (SearchView) menu.findItem(R.id.search).getActionView();
-                   searchView.setSearchableInfo(
-                        searchManager.getSearchableInfo(getComponentName()));
-
-                   return true;
-            }
-
-
-
-
 }
 /*
 

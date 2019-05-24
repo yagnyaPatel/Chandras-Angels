@@ -34,6 +34,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.2.1'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
+    //Yelp
+    implementation 'io.github.ranga543:yelp-fusion-client:0.1.4'
+    implementation 'com.android.volley:volley:1.1.1'
+
     //Json parsing
     implementation 'com.google.code.gson:gson:2.8.2'
 
