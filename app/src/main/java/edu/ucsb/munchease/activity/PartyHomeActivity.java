@@ -67,6 +67,8 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("*DEBUG*", "*** GOT TO THE START OF ONCREATE() ***");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
@@ -98,6 +100,8 @@ public class PartyHomeActivity extends AppCompatActivity {
                 clearRestaurants();
             }
         });
+
+        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
     }
 
     /**
@@ -130,7 +134,6 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void populateDatabase() {
         Party party2 = new Party();
-
         try {
             party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
             party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
@@ -148,7 +151,7 @@ public class PartyHomeActivity extends AppCompatActivity {
      * Gets the latest information from the database and updates the RecyclerView adapter to reflect any changes
      * Currently does not properly support updating on data changes, and will just add to the end of the list instead of updating items
      */
-    private void retrievePartyFromDatabase() {
+    /*private void retrievePartyFromDatabase() {
         partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -194,24 +197,24 @@ public class PartyHomeActivity extends AppCompatActivity {
 
                     party.setMembers(tempParty.getMembers());
 
-                    /*party.clearRestaurants();
+                    *//*party.clearRestaurants();
 
                     int startPosition = party.getRestaurants().size();
 
                     for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
                         party.addRestaurant(tempParty.getRestaurants().get(i));
                     }
-                    
 
-                    mAdapter.notifyDataSetChanged();*/
+
+                    mAdapter.notifyDataSetChanged();*//*
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
             }
         });
-    }
+    }*/
 
-    private void getRestaurantsFromDB() {
+    /*private void getRestaurantsFromDB() {
         restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -228,7 +231,7 @@ public class PartyHomeActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     private void setUpRestaurantsListener() {
         restaurantsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
