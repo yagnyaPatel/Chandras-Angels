@@ -33,7 +33,7 @@ public class Searchable extends AppCompatActivity {
     RequestQueue queue = Volley.newRequestQueue(this);
 
     String url = "https://api.yelp.com/v3/businesses/search";
-    /**
+    ///**
     public class Parameters {
         HashMap<String, String> mParams = new HashMap<String, String>();
 
@@ -42,7 +42,7 @@ public class Searchable extends AppCompatActivity {
             mParams.put("cache-control", "no-cache");
         }
     }
-     */
+    // */
 
     // TODO dummy
     public void search() {
@@ -67,6 +67,22 @@ public class Searchable extends AppCompatActivity {
                 mParams.put("cache-control", "no-cache");
                 return mParams;
             }
+            //not sure where to put this
+            /*@Override
+              public boolean onCreateOptionsMenu(Menu menu) {
+                   MenuInflater inflater = getMenuInflater();
+                   inflater.inflate(R.menu.options_menu, menu);
+
+                   // Associate searchable configuration with the SearchView
+                   SearchManager searchManager =
+                        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                   SearchView searchView =
+                        {SearchView) menu.findItem(R.id.search).getActionView();
+                   searchView.setSearchableInfo(
+                        searchManager.getSearchableInfo(getComponentName()));
+
+                   return true;
+            }*/
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
