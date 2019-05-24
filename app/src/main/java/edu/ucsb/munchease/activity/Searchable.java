@@ -1,6 +1,7 @@
 package edu.ucsb.munchease.activity;
 
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.Response;
 import edu.ucsb.munchease.R;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 public class Searchable extends AppCompatActivity {
@@ -25,9 +30,24 @@ public class Searchable extends AppCompatActivity {
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            query = intent.getStringExtra(SearchManager.QUERY);
         }
     }
+            @Override
+              public boolean onCreateOptionsMenu(Menu menu) {
+                   MenuInflater inflater = getMenuInflater();
+                   inflater.inflate(R.menu.options_menu, menu);
+
+                   // Associate searchable configuration with the SearchView
+                   SearchManager searchManager =
+                        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                   SearchView searchView =
+                           (SearchView) menu.findItem(R.id.search).getActionView();
+                   searchView.setSearchableInfo(
+                        searchManager.getSearchableInfo(getComponentName()));
+
+                   return true;
+            }
 
     String api_key = "_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ-Q04YRy_XAXHYx";
     RequestQueue queue = Volley.newRequestQueue(this);
@@ -67,22 +87,7 @@ public class Searchable extends AppCompatActivity {
                 mParams.put("cache-control", "no-cache");
                 return mParams;
             }
-            //not sure where to put this
-            /*@Override
-              public boolean onCreateOptionsMenu(Menu menu) {
-                   MenuInflater inflater = getMenuInflater();
-                   inflater.inflate(R.menu.options_menu, menu);
 
-                   // Associate searchable configuration with the SearchView
-                   SearchManager searchManager =
-                        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                   SearchView searchView =
-                        {SearchView) menu.findItem(R.id.search).getActionView();
-                   searchView.setSearchableInfo(
-                        searchManager.getSearchableInfo(getComponentName()));
-
-                   return true;
-            }*/
         };
         // Add the request to the RequestQueue.
         queue.add(stringRequest);

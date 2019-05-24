@@ -5,4 +5,5 @@
     <string name="price_3">$$$</string>
     <string name="price_4">$$$$</string>
     <string name="price_unavailable">$=?</string>
+    <string name="search_title"></string>
 </resources>
