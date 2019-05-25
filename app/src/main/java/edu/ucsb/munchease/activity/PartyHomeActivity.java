@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -29,6 +30,7 @@ import edu.ucsb.munchease.data.InvalidJsonException;
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
 import edu.ucsb.munchease.data.RestaurantParser;
+import edu.ucsb.munchease.data.YelpInterface;
 import edu.ucsb.munchease.view.RestaurantAdapter;
 
 // TODO Temporary
@@ -42,6 +44,9 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     //The party
     private Party party;
+
+    // Yelp Interface
+    private YelpInterface yelpInterface;
 
     //Visual components of the app
 
@@ -74,6 +79,9 @@ public class PartyHomeActivity extends AppCompatActivity {
 
         party = new Party();
         //party.addRestaurant(new Restaurant("Local Restaurant 1", "5", 25, "$$", "1234 The Street")); //Test restaurant
+
+        //Initialize Yelp api
+        yelpInterface = new YelpInterface();
 
         setUpFirebase();
         populateDatabase();
@@ -134,10 +142,20 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void populateDatabase() {
         Party party2 = new Party();
+        // TODO this is a placeholder possibly for demo
+        // Parse IV local restaurants
+        String restaurants = yelpInterface.yelpRadiusSearch(null);
+        //ArrayList<Restaurant> localRestaurants = YelpInterface.getRestaurantsFromJsonArray(restaurants);
         try {
-            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
-            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
-        } catch(InvalidJsonException e) { } // Do nothing
+            //for(Restaurant r : localRestaurants) {
+                //party2.addRestaurant(r);
+            //    if(r == null) {
+                    party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
+                    party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
+            //    }
+            //}
+
+        } catch(Exception e) { } // Do nothing
 
         // Add a new document with a generated ID
         db.collection("parties").document(party2.getPartyID()).set(party2);
