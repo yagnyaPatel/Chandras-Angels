@@ -75,15 +75,15 @@ public class YelpInterface {
         }
     }*/
 
-    // TODO do not use
-    public String yelpRadiusURL(String searchTerm) {
+    // Get URL with parameters
+    public static String yelpRadiusURL(String searchTerm) {
         // Initialize url
         String url = "https://api.yelp.com/v3/businesses/search";
 
         // Add URL parameters
         url += "?term=restaurants";
 
-        if(searchTerm != null) {
+        if(searchTerm != null && searchTerm.length() > 0) {
             url += ("&term=" + searchTerm);
         }
         url += "&latitude=34.411501";

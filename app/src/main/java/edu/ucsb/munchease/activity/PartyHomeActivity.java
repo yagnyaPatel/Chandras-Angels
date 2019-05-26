@@ -94,7 +94,7 @@ public class PartyHomeActivity extends AppCompatActivity {
 
         setUpFirebase();
         sendYelpRequest(null);
-        populateDatabase();
+        //populateDatabase();
         setUpRestaurantList();
         //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
         //setUpDatabaseListener();
@@ -147,10 +147,10 @@ public class PartyHomeActivity extends AppCompatActivity {
         restaurantsRef = partyDocRef.collection("restaurants");
     }
 
-    private void sendYelpRequest(final String searchTerm) {
+    private void sendYelpRequest(String searchTerm) {
         // Create request queue and perform search with no parameters
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://api.yelp.com/v3/businesses/search";
+        String url = YelpInterface.yelpRadiusURL(searchTerm);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -177,23 +177,6 @@ public class PartyHomeActivity extends AppCompatActivity {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + YelpInterface.getApiKey());
                 return headers;
-            }
-
-            @Override
-            public Map<String, String> getParams() {
-                // Add URL parameters
-                Map<String, String> params = new HashMap<>();
-
-                if(searchTerm != null && searchTerm.length() > 0) {
-                    params.put("term", searchTerm);
-                }
-
-                params.put("term", "restaurants");
-                params.put("latitude", "34.411501");
-                params.put("longitude", "119.853554");
-                params.put("radius", "1000");
-
-                return params;
             }
         };
         // Add request to queue
