@@ -54,7 +54,6 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private DocumentReference partyDocRef;
-    private DocumentReference testRef;
     private CollectionReference restaurantsRef;
 
     //------------------------------------------------------------------
