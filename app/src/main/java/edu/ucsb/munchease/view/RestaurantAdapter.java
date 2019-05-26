@@ -133,23 +133,23 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         switch (rating) {
             case "0":
                 return R.drawable.stars_regular_0;
-            case "1":
+            case "1.0":
                 return R.drawable.stars_regular_1;
             case "1.5":
                 return R.drawable.stars_regular_1_half;
-            case "2":
+            case "2.0":
                 return R.drawable.stars_regular_2;
             case "2.5":
                 return R.drawable.stars_regular_2_half;
-            case "3":
+            case "3.0":
                 return R.drawable.stars_regular_3;
             case "3.5":
                 return R.drawable.stars_regular_3_half;
-            case "4":
+            case "4.0":
                 return R.drawable.stars_regular_4;
             case "4.5":
                 return R.drawable.stars_regular_4_half;
-            case "5":
+            case "5.0":
                 return R.drawable.stars_regular_5;
             default:
                 return R.drawable.stars_regular_0;

@@ -10,12 +10,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.volley.Request;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,15 +35,12 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import edu.ucsb.munchease.R;
-import edu.ucsb.munchease.data.InvalidJsonException;
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
-import edu.ucsb.munchease.data.RestaurantParser;
 import edu.ucsb.munchease.data.YelpInterface;
 import edu.ucsb.munchease.view.RestaurantAdapter;
 
 // TODO Temporary
-import edu.ucsb.munchease.data.DummyJsonRestaurants;
 
 public class PartyHomeActivity extends AppCompatActivity {
 
@@ -93,13 +90,9 @@ public class PartyHomeActivity extends AppCompatActivity {
         yelpInterface = new YelpInterface();
 
         setUpFirebase();
-        sendYelpRequest(null);
-        //populateDatabase();
         setUpRestaurantList();
-        //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
-        //setUpDatabaseListener();
-        //getRestaurantsFromDB();
         setUpRestaurantsListener();
+        sendYelpRequest(null);
 
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
         button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {

@@ -14,7 +14,7 @@ public class Restaurant {
     private double latitude;
     private double longitude;
 
-    private RestaurantSchedule schedule; // Contains all time and schedule related info
+//    private RestaurantSchedule schedule; // Contains all time and schedule related info
 
     private int votes;
 
@@ -43,7 +43,7 @@ public class Restaurant {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.schedule = schedule;
+//        this.schedule = schedule;
         this.votes = votes;
     }
 
@@ -123,9 +123,9 @@ public class Restaurant {
      * Returns the Restaurant Schedule object
      * @return The Restaurant Schedule object
      */
-    public RestaurantSchedule getSchedule() {
-        return schedule;
-    }
+//    public RestaurantSchedule getSchedule() {
+//        return schedule;
+//    }
 
     /**
      * Returns the number of votes the restaurant has in the current party
