@@ -1,8 +1,12 @@
 package edu.ucsb.munchease.data;
 
+import android.content.Context;
+
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.Volley;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.connection.YelpFusionApiFactory;
 import com.yelp.fusion.client.models.SearchResponse;
@@ -17,13 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import edu.ucsb.munchease.activity.PartyHomeActivity;
+
 //import retrofit2.Call;
 //import retrofit2.Response;
 
 public class YelpInterface {
     private YelpFusionApiFactory apiFactory;
     private YelpFusionApi yelpApi;
-    private static String apiKey = "_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ-Q04YRy_XAXHYx";
+    private static final String apiKey = "_OQqAnq91MYWUPjoqbXMTIcDSpcoIcXqhbKDASfG1CQf1OXmyL7Zjf1DHPwwncAk4sOuc1YQY79xcynpQ93ewSUMfynihNmTR1ckaAWNNeNhfIVLhQ-Q04YRy_XAXHYx";
 
     // Enforce static class
     public YelpInterface() {
@@ -35,6 +41,8 @@ public class YelpInterface {
             e.printStackTrace();
         }
     }
+
+    public static String getApiKey() { return apiKey; }
 
     /**
      * Returns a JSON list of restaurants returned by the provided search term
@@ -67,7 +75,8 @@ public class YelpInterface {
         }
     }*/
 
-    public String yelpRadiusSearch(String searchTerm) {
+    // TODO do not use
+    public String yelpRadiusURL(String searchTerm) {
         // Initialize url
         String url = "https://api.yelp.com/v3/businesses/search";
 
@@ -77,12 +86,16 @@ public class YelpInterface {
         if(searchTerm != null) {
             url += ("&term=" + searchTerm);
         }
-        url += "&term=restaurants";
         url += "&latitude=34.411501";
         url += "&longitude=-119.853554";
         url += "&radius=1000"; // TODO Change value
 
-        // Send synchronous request
+        // TODO
+        return url;
+
+        /*// Set up request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(volleyContext);
+        // Create synchronous request, add to queue
         RequestFuture<JSONObject> requestFuture = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(url, new JSONObject(), requestFuture, requestFuture) {
             // Set API authorization header
@@ -93,7 +106,9 @@ public class YelpInterface {
                 return params;
             }
         };
+        requestQueue.add(request);
 
+        // Try actually getting the request
         try {
             JSONObject response = requestFuture.get();
             String returnStr = response.toString();
@@ -105,7 +120,7 @@ public class YelpInterface {
         }
 
         // Return null if the request didnt work
-        return null;
+        return null;*/
     }
 
     public static ArrayList<Restaurant> getRestaurantsFromJsonArray(String json) {
@@ -117,7 +132,7 @@ public class YelpInterface {
         // Iterate through businesses array
         JsonArray businesses = obj.get("businesses").getAsJsonArray();
         for(JsonElement restaurantElement : businesses) {
-            String restaurantJson = element.getAsString();
+            String restaurantJson = restaurantElement.toString();
             try {
                 Restaurant r = RestaurantParser.parseRestaurantFromYelpResponse(restaurantJson);
                 returnList.add(r);

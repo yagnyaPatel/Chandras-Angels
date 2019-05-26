@@ -13,7 +13,7 @@ public class RestaurantParser {
         // Get entire object
         JsonElement element = new JsonParser().parse(jsonInput);
         JsonObject response = element.getAsJsonObject();
-
+        // TODO deal with hours
         // Ensure response has all needed elements
         if(!(response.has("alias") &&
                 response.has("name") &&
@@ -22,8 +22,8 @@ public class RestaurantParser {
                 response.has("review_count") &&
                 response.has("price") &&
                 response.has("location") &&
-                response.has("coordinates") &&
-                response.has("hours"))) {
+                response.has("coordinates"))) {
+                //response.has("hours"))) {
             throw new InvalidJsonException();
         }
 
@@ -67,8 +67,9 @@ public class RestaurantParser {
         double longitude = coordinates.get("longitude").getAsDouble();
 
         // Parse "hours" element into RestaurantSchedule
-        JsonArray hours = response.get("hours").getAsJsonArray();
-        RestaurantSchedule schedule = parseScheduleFromYelpResponse(hours);
+        //JsonArray hours = response.get("hours").getAsJsonArray();
+        //RestaurantSchedule schedule = parseScheduleFromYelpResponse(hours);
+        RestaurantSchedule schedule = null;
 
         // Construct return object - Initialize votes to 0, as this is brand new from a Yelp return
         return new Restaurant(alias, name, url, rating, reviewCount, price, address, latitude, longitude, schedule, 0);

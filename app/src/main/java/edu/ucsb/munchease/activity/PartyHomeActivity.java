@@ -9,6 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.Request;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,6 +28,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -84,6 +93,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         yelpInterface = new YelpInterface();
 
         setUpFirebase();
+        sendYelpRequest(null);
         populateDatabase();
         setUpRestaurantList();
         //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
@@ -137,32 +147,71 @@ public class PartyHomeActivity extends AppCompatActivity {
         restaurantsRef = partyDocRef.collection("restaurants");
     }
 
+    private void sendYelpRequest(final String searchTerm) {
+        // Create request queue and perform search with no parameters
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://api.yelp.com/v3/businesses/search";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        // Add response restaurants to party
+                        ArrayList<Restaurant> localRestaurants = YelpInterface.getRestaurantsFromJsonArray(response);
+
+                        for(Restaurant r : localRestaurants) {
+                            addRestaurantToParty(r);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }) {
+            // Set Yelp authorization header
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + YelpInterface.getApiKey());
+                return headers;
+            }
+
+            @Override
+            public Map<String, String> getParams() {
+                // Add URL parameters
+                Map<String, String> params = new HashMap<>();
+
+                if(searchTerm != null && searchTerm.length() > 0) {
+                    params.put("term", searchTerm);
+                }
+
+                params.put("term", "restaurants");
+                params.put("latitude", "34.411501");
+                params.put("longitude", "119.853554");
+                params.put("radius", "1000");
+
+                return params;
+            }
+        };
+        // Add request to queue
+        queue.add(stringRequest);
+    }
+
     /**
      * Adds dummy data to the database
      */
     private void populateDatabase() {
-        Party party2 = new Party();
-        // TODO this is a placeholder possibly for demo
-        // Parse IV local restaurants
-        String restaurants = yelpInterface.yelpRadiusSearch(null);
-        //ArrayList<Restaurant> localRestaurants = YelpInterface.getRestaurantsFromJsonArray(restaurants);
-        try {
-            //for(Restaurant r : localRestaurants) {
-                //party2.addRestaurant(r);
-            //    if(r == null) {
-                    party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
-                    party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
-            //    }
-            //}
-
-        } catch(Exception e) { } // Do nothing
+        //Party party2 = new Party();
 
         // Add a new document with a generated ID
-        db.collection("parties").document(party2.getPartyID()).set(party2);
+        db.collection("parties").document(party.getPartyID()).set(party);
 
-        for(Restaurant r : party2.getRestaurants()) {
+/*        for(Restaurant r : party2.getRestaurants()) {
             restaurantsRef.document(r.getName()).set(r);
-        }
+        }*/
     }
 
     /**
