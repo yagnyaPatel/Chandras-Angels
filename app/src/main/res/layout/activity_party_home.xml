@@ -37,11 +37,11 @@
         app:layout_constraintTop_toBottomOf="@+id/button_clearRestaurants" />
 
     <Button
-        android:id="@+id/button_addRandomRestaurant"
+        android:id="@+id/button_searchRest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Add Random Restaurant"
+        android:text="Search for Restaurants"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +56,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_addRandomRestaurant" />
+        app:layout_constraintTop_toBottomOf="@+id/button_searchRest" />
 
 </android.support.constraint.ConstraintLayout>

@@ -59,7 +59,7 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     //Visual components of the app
 
-    private Button button_addRandomRestaurant;
+    private Button button_searchRest;
     private Button button_clearRestaurants;
 
     private RecyclerView recyclerView_restaurantList;
@@ -101,8 +101,8 @@ public class PartyHomeActivity extends AppCompatActivity {
         //getRestaurantsFromDB();
         setUpRestaurantsListener();
 
-        button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
-        button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
+        button_searchRest= findViewById(R.id.button_searchRest);
+        button_searchRest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addRestaurantToParty(generateRandomRestaurant());

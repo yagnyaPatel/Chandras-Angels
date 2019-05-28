@@ -5,3 +5,4 @@
     android:hint='"Search for restaurants!"'
     android:label="@string/app_name"></searchable>
 
+
