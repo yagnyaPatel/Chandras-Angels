@@ -92,13 +92,13 @@ public class PartyHomeActivity extends AppCompatActivity {
         setUpFirebase();
         setUpRestaurantList();
         setUpRestaurantsListener();
-        sendYelpRequest(null);
 
+        // Does not actually add random restaurant
         button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
         button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRestaurantToParty(generateRandomRestaurant());
+                sendYelpRequest(null);
             }
         });
 

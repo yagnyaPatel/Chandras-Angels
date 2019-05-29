@@ -9,8 +9,7 @@
     <list default="true" id="b126a2ba-912b-469d-9249-c1d99ea94c5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/YelpInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/YelpInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_party_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_party_home.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/YelpInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1120">
+            <state relative-caret-position="1240">
               <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -39,14 +38,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="388">
-              <caret line="96" column="10" selection-start-line="96" selection-start-column="10" selection-end-line="96" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="40">
+              <caret line="95" column="50" selection-start-line="95" selection-start-column="50" selection-end-line="95" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_party_home.xml">
+          <provider editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/Restaurant.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -54,7 +74,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="300">
               <caret line="17" column="92" selection-start-line="17" selection-start-column="92" selection-end-line="17" selection-end-column="92" />
             </state>
           </provider>
@@ -110,6 +130,7 @@
         <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/YelpInterface.java" />
         <option value="$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/res/layout/activity_party_home.xml" />
       </list>
     </option>
   </component>
@@ -130,6 +151,21 @@
       <pane id="AndroidView">
         <subPane>
           <expand>
+            <path>
+              <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
             <path>
               <item name="Chandras-Angels" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -269,15 +305,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="munchease_in_app - 2019.05.17 at 17h 19m 31s.xml">
-      <configuration name="munchease in app" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="munchease_in_app - 2019.05.17 at 17h 19m 59s.xml">
-      <configuration name="munchease in app" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="munchease_in_app - 2019.05.17 at 17h 21m 10s.xml">
-      <configuration name="munchease in app" configurationId="AndroidJUnit" />
-    </history-entry>
     <history-entry file="munchease_in_app - 2019.05.17 at 17h 23m 22s.xml">
       <configuration name="munchease in app" configurationId="AndroidJUnit" />
     </history-entry>
@@ -299,13 +326,22 @@
     <history-entry file="munchease_in_app - 2019.05.23 at 20h 59m 26s.xml">
       <configuration name="munchease in app" configurationId="AndroidJUnit" />
     </history-entry>
+    <history-entry file="munchease_in_app - 2019.05.26 at 14h 54m 57s.xml">
+      <configuration name="munchease in app" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="munchease_in_app - 2019.05.26 at 14h 59m 34s.xml">
+      <configuration name="munchease in app" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="munchease_in_app - 2019.05.26 at 15h 03m 52s.xml">
+      <configuration name="munchease in app" configurationId="AndroidJUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.090618335" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.141258" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Build Variants" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
@@ -392,13 +428,6 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/edu/ucsb/munchease/SampleJsonRestaurants.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/DummyJsonRestaurants.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantSchedule.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/Restaurant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -427,13 +456,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -551,13 +573,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/Party.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Programs/Android/SDK/sources/android-28/android/app/ActivityThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33164">
@@ -565,16 +580,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="17" column="92" selection-start-line="17" selection-start-column="92" selection-end-line="17" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/YelpInterface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1120">
+        <state relative-caret-position="1240">
           <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -582,15 +590,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/Restaurant.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="96" column="10" selection-start-line="96" selection-start-column="10" selection-end-line="96" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="220">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/RestaurantParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="17" column="92" selection-start-line="17" selection-start-column="92" selection-end-line="17" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/data/Party.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/edu/ucsb/munchease/activity/PartyHomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="95" column="50" selection-start-line="95" selection-start-column="50" selection-end-line="95" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/res/layout/activity_party_home.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
     </entry>
   </component>
 </project>
