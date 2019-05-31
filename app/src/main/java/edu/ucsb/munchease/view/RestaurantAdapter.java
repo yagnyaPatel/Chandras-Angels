@@ -24,6 +24,7 @@ import edu.ucsb.munchease.data.Restaurant;
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
     private ArrayList<Restaurant> restaurants;
+    public static int numberOfVotes = 3;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public RestaurantAdapter(ArrayList<Restaurant> restaurants) {
@@ -42,16 +43,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         private CollectionReference restaurantsRef;
 
         //Basic information
-        public TextView textView_restaurantName;
+        private TextView textView_restaurantName;
 
         //Voting components
-        public ImageButton button_upvote, button_downvote;
-        public TextView textView_votes;
+        private ImageButton button_upvote, button_downvote;
+        private TextView textView_votes;
 
         //Rating components
-        public ImageView imageView_stars;
-        public TextView textView_numberOfReviews;
-        public TextView textView_price;
+        private ImageView imageView_stars;
+        private TextView textView_numberOfReviews;
+        private TextView textView_price;
 
         public RestaurantViewHolder(View v) {
             super(v);
@@ -72,16 +73,26 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             button_upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("---ADAPTER---", "Upvote button clicked for " + restaurant.getName());
-                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(1));
+                    if(RestaurantAdapter.numberOfVotes > 0) {
+                        Log.d("---ADAPTER---", "Upvote button clicked for " + restaurant.getName());
+                        restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(1));
+                        RestaurantAdapter.numberOfVotes--;
+                    } else {
+                        Log.d("---ADAPTER---", "OUT OF VOTES - Upvote button clicked for " + restaurant.getName());
+                    }
                 }
             });
 
             button_downvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("---ADAPTER---", "Downvote button clicked");
-                    restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(-1));
+                    if(RestaurantAdapter.numberOfVotes > 0) {
+                        Log.d("---ADAPTER---", "Downvote button clicked");
+                        restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(-1));
+                        RestaurantAdapter.numberOfVotes--;
+                    } else {
+                        Log.d("---ADAPTER---", "OUT OF VOTES - Upvote button clicked for " + restaurant.getName());
+                    }
                 }
             });
         }
