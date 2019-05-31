@@ -1,9 +1,11 @@
 package edu.ucsb.munchease.activity;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import java.io.IOException;
@@ -36,6 +38,12 @@ public class Searchable extends AppCompatActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
+
+            // Pass data back to PartyHomeActivity
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("query", query);
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
 
         queue = Volley.newRequestQueue(this);

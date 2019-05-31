@@ -1,5 +1,6 @@
 package edu.ucsb.munchease.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +52,7 @@ public class PartyHomeActivity extends AppCompatActivity {
     //------------------------------------------------------------------
     // *** INSTANCE VARIABLES ***
     //------------------------------------------------------------------
-
+    private static final int SEARCH_REQUEST = 1;
     //The party
     private Party party;
 
@@ -93,7 +95,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         yelpInterface = new YelpInterface();
 
         setUpFirebase();
-        sendYelpRequest(null);
+
         //populateDatabase();
         setUpRestaurantList();
         //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
@@ -105,7 +107,9 @@ public class PartyHomeActivity extends AppCompatActivity {
         button_searchRest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRestaurantToParty(generateRandomRestaurant());
+                //addRestaurantToParty(generateRandomRestaurant());
+                Intent intent1 = new Intent(PartyHomeActivity.this, Searchable.class);
+                startActivityForResult(intent1,SEARCH_REQUEST);
             }
         });
 
@@ -120,6 +124,17 @@ public class PartyHomeActivity extends AppCompatActivity {
         });
 
         Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
+    }
+
+    // Handle search activity result
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == SEARCH_REQUEST){
+            if(resultCode == Activity.RESULT_OK){
+                sendYelpRequest(data.getStringExtra("query"));
+            }
+        }
+
     }
 
     /**
@@ -147,7 +162,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         restaurantsRef = partyDocRef.collection("restaurants");
     }
 
-    private void sendYelpRequest(String searchTerm) {
+    public void sendYelpRequest(String searchTerm) {
         // Create request queue and perform search with no parameters
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = YelpInterface.yelpRadiusURL(searchTerm);
