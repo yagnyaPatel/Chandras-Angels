@@ -140,6 +140,10 @@ public class PartyHomeActivity extends AppCompatActivity {
         restaurantsRef = partyDocRef.collection("restaurants");
     }
 
+    /**
+     * Sends a Yelp API request with the term passed as a parameter
+     * @param searchTerm The term to pass as the Yelp search term
+     */
     private void sendYelpRequest(String searchTerm) {
         // Create request queue and perform search with no parameters
         RequestQueue queue = Volley.newRequestQueue(this);
