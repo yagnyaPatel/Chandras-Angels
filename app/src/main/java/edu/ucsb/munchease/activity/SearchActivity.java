@@ -22,7 +22,7 @@ import java.util.Map;
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Restaurant;
 import edu.ucsb.munchease.data.YelpInterface;
-import edu.ucsb.munchease.view.RestaurantAdapter;
+import edu.ucsb.munchease.view.SearchAdapter;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -62,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView_searchSuggestions.setLayoutManager(layoutManager);
 
-        mAdapter = new RestaurantAdapter(restaurants);
+        mAdapter = new SearchAdapter(restaurants);
         recyclerView_searchSuggestions.setAdapter(mAdapter);
     }
 
@@ -71,7 +71,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 textView_test.setText("Searched For: " + query);
-                restaurants.clear();
                 sendYelpRequest(query);
                 Log.d("array", "restaurants.size() = " + restaurants.size());
                 return false;
@@ -80,7 +79,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 textView_test.setText("Current Text: " + newText);
-                restaurants.clear();
                 sendYelpRequest(newText);
                 return false;
             }
@@ -102,6 +100,8 @@ public class SearchActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         // Add response restaurants to party
+                        restaurants.clear();
+
                         ArrayList<Restaurant> localRestaurants = YelpInterface.getRestaurantsFromJsonArray(response);
 
                         for(Restaurant r : localRestaurants) {

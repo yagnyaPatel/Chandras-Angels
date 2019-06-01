@@ -68,7 +68,7 @@ public class YelpInterface {
         String url = "https://api.yelp.com/v3/businesses/search";
 
         // Add URL parameters
-        url += "?term=" + searchTerm;
+        url += "?term=restaurants+" + searchTerm;
 
 //        if(searchTerm != null && searchTerm.length() > 0) {
 //            url += ("&term=" + searchTerm);
