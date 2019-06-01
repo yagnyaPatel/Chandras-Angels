@@ -26,7 +26,7 @@ import edu.ucsb.munchease.view.RestaurantAdapter;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private  ArrayList<Restaurant> restaurants;
+    private ArrayList<Restaurant> restaurants;
 
     private SearchView searchView;
     private TextView textView_test;
@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity {
 
         initializeComponents();
         setUpSearchbar();
-//        setUpRestaurantList();
+        setUpRestaurantList();
     }
 
     private void initializeComponents() {
@@ -50,8 +50,6 @@ public class SearchActivity extends AppCompatActivity {
 
         searchView = findViewById(R.id.searchView);
         textView_test = findViewById(R.id.textView_test);
-
-//        recyclerView_searchSuggestions = findViewById(R.id.recyclerView_searchSuggestions);
     }
 
     /**
@@ -61,11 +59,9 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView_searchSuggestions = findViewById(R.id.recyclerView_searchSuggestions);
         recyclerView_searchSuggestions.setHasFixedSize(true);
 
-        // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView_searchSuggestions.setLayoutManager(layoutManager);
 
-        //Specify an adapter
         mAdapter = new RestaurantAdapter(restaurants);
         recyclerView_searchSuggestions.setAdapter(mAdapter);
     }
@@ -109,7 +105,7 @@ public class SearchActivity extends AppCompatActivity {
                             restaurants.add(r);
                         }
 
-//                        mAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
