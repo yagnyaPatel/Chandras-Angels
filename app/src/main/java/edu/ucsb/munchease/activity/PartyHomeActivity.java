@@ -1,7 +1,9 @@
 package edu.ucsb.munchease.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +17,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -58,6 +59,7 @@ public class PartyHomeActivity extends AppCompatActivity {
 
     private Button button_addRandomRestaurant;
     private Button button_clearRestaurants;
+    private FloatingActionButton button_startSearch;
 
     private RecyclerView recyclerView_restaurantList;
     private RecyclerView.Adapter mAdapter;
@@ -109,6 +111,16 @@ public class PartyHomeActivity extends AppCompatActivity {
                 party.clearRestaurants();
                 partyDocRef.set(party);
                 clearRestaurants();
+            }
+        });
+
+        button_startSearch = findViewById(R.id.button_startSearch);
+        button_startSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("button", "Start search button clicked");
+                Intent goToSearchActivity = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(goToSearchActivity);
             }
         });
 
