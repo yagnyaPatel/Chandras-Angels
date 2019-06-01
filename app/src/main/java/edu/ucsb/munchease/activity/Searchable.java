@@ -27,16 +27,19 @@ import android.widget.TextView;
 
 public class Searchable extends AppCompatActivity {
     String query = "";
-    final TextView textView = (TextView) findViewById(R.id.text);
+    TextView textView;
     RequestQueue queue;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
+        textView = findViewById(R.id.search_text);
+
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+
             query = intent.getStringExtra(SearchManager.QUERY);
 
             // Pass data back to PartyHomeActivity

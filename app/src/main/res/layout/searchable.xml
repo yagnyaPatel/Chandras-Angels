@@ -3,6 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint='"Search for restaurants!"'
-    android:label="@string/app_name"></searchable>
+    android:label="@string/app_name">
+    <android.support.v7.widget.LinearLayoutCompat>
+        <TextView     android:id="@+id/search_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hi there"
+            android:ems="10"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+</searchable>
 
 
