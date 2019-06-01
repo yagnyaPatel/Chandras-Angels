@@ -1,27 +1,14 @@
 package edu.ucsb.munchease.data;
 
-import android.content.Context;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.connection.YelpFusionApiFactory;
-import com.yelp.fusion.client.models.SearchResponse;
-
-import com.google.gson.*;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-
-import edu.ucsb.munchease.activity.PartyHomeActivity;
 
 //import retrofit2.Call;
 //import retrofit2.Response;
@@ -81,11 +68,12 @@ public class YelpInterface {
         String url = "https://api.yelp.com/v3/businesses/search";
 
         // Add URL parameters
-        url += "?term=restaurants";
+        url += "?term=" + searchTerm;
 
-        if(searchTerm != null && searchTerm.length() > 0) {
-            url += ("&term=" + searchTerm);
-        }
+//        if(searchTerm != null && searchTerm.length() > 0) {
+//            url += ("&term=" + searchTerm);
+//        }
+
         url += "&latitude=34.411501";
         url += "&longitude=-119.853554";
         url += "&radius=1000"; // TODO Change value

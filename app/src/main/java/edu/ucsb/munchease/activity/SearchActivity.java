@@ -71,7 +71,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 textView_test.setText("Searched For: " + query);
-                sendYelpRequest(null);
+                restaurants.clear();
+                sendYelpRequest(query);
                 Log.d("array", "restaurants.size() = " + restaurants.size());
                 return false;
             }
@@ -79,6 +80,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 textView_test.setText("Current Text: " + newText);
+                restaurants.clear();
+                sendYelpRequest(newText);
                 return false;
             }
         });
