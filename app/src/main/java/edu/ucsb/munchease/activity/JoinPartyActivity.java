@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -101,7 +103,10 @@ public class JoinPartyActivity extends AppCompatActivity {
                         startActivity(goToPartyHomeActivity);
 
                     } else {
-                        Log.d("---RETRIEVE---", "No such document - creating now");
+                        Log.d("---RETRIEVE---", "Party does not exist!!!");
+                        Toast toast = Toast.makeText(getApplicationContext(), "Party does not exist", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 32);
+                        toast.show();
                     }
                 } else {
                     Log.d("---RETRIEVE---", "get failed with ", task.getException());
