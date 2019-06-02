@@ -97,13 +97,11 @@ public class JoinPartyActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("---RETRIEVE---", "Party already exists: " + document.getData());
                         Intent goToPartyHomeActivity = new Intent(getApplicationContext(), PartyHomeActivity.class);
                         goToPartyHomeActivity.putExtra("sharePartyID", partyID);
                         startActivity(goToPartyHomeActivity);
 
                     } else {
-                        Log.d("---RETRIEVE---", "Party does not exist!!!");
                         Toast toast = Toast.makeText(getApplicationContext(), "Party does not exist", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.TOP, 0, 32);
                         toast.show();
