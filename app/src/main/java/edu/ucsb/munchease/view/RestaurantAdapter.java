@@ -63,8 +63,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             super(v);
 
             setUpFirebase();
-
-            textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
+            initComponents(v);
 
             textView_restaurantName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,15 +72,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
                     v.getContext().startActivity(i);
                 }
             });
-
-            textView_votes = v.findViewById(R.id.textView_votes);
-
-            imageView_stars = v.findViewById(R.id.imageView_stars);
-            textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
-            textView_price = v.findViewById(R.id.textView_price);
-
-            button_upvote = v.findViewById(R.id.imageButton_upvote);
-            button_downvote = v.findViewById(R.id.imageButton_downvote);
 
             button_upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +107,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             db = FirebaseFirestore.getInstance();
             docRef = db.collection("parties").document(RestaurantAdapter.partyID);
             restaurantsRef = docRef.collection("restaurants");
+        }
+
+        private void initComponents(View v) {
+            textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
+            textView_votes = v.findViewById(R.id.textView_votes);
+
+            imageView_stars = v.findViewById(R.id.imageView_stars);
+            textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
+            textView_price = v.findViewById(R.id.textView_price);
+
+            button_upvote = v.findViewById(R.id.imageButton_upvote);
+            button_downvote = v.findViewById(R.id.imageButton_downvote);
         }
 
         private void setRestaurant(Restaurant r) {
