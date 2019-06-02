@@ -44,6 +44,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         //Basic information
         private TextView textView_restaurantName;
+        final public static int RESTAURANT_NAME_MAX_LENGHT = 27;
 
         //Voting components
         private ImageButton button_upvote, button_downvote;
@@ -127,7 +128,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         holder.setRestaurant(restaurant);
 
-        holder.textView_restaurantName.setText(restaurant.getName());
+        if(restaurant.getName().length() > RestaurantViewHolder.RESTAURANT_NAME_MAX_LENGHT) {
+            String shortenedText = restaurant.getName().substring(0, 24) + "...";
+            holder.textView_restaurantName.setText(shortenedText);
+        } else {
+            holder.textView_restaurantName.setText(restaurant.getName());
+        }
+
         holder.textView_numberOfReviews.setText(restaurant.getReviewCount() + " reviews");
         holder.textView_price.setText(restaurant.getPrice());
         holder.textView_votes.setText(restaurant.getVotes() + "");

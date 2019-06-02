@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,7 +28,6 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Restaurant> restaurants;
 
     private SearchView searchView;
-    private TextView textView_test;
 
     private RecyclerView recyclerView_searchSuggestions;
     private RecyclerView.Adapter mAdapter;
@@ -49,7 +47,6 @@ public class SearchActivity extends AppCompatActivity {
         restaurants = new ArrayList<>();
 
         searchView = findViewById(R.id.searchView);
-        textView_test = findViewById(R.id.textView_test);
     }
 
     /**
@@ -70,7 +67,6 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                textView_test.setText("Searched For: " + query);
                 sendYelpRequest(query);
                 Log.d("array", "restaurants.size() = " + restaurants.size());
                 return false;
@@ -78,7 +74,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                textView_test.setText("Current Text: " + newText);
                 sendYelpRequest(newText);
                 return false;
             }
