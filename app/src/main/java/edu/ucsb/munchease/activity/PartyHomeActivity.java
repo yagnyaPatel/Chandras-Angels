@@ -9,7 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -56,9 +56,10 @@ public class PartyHomeActivity extends AppCompatActivity {
     private YelpInterface yelpInterface;
 
     //Visual components of the app
+    private TextView textView_homeText;
 
-    private Button button_addRandomRestaurant;
-    private Button button_clearRestaurants;
+    private FloatingActionButton button_addRestaurants;
+    private FloatingActionButton button_clearRestaurants;
     private FloatingActionButton button_startSearch;
 
     private RecyclerView recyclerView_restaurantList;
@@ -94,16 +95,25 @@ public class PartyHomeActivity extends AppCompatActivity {
         setUpRestaurantList();
         setUpRestaurantsListener();
 
+        initComponents();
+
+        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
+    }
+
+    private void initComponents() {
+        textView_homeText = findViewById(R.id.textView_homeText);
+        textView_homeText.setText("Party " + party.getPartyID());
+
         // Does not actually add random restaurant
-        button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
-        button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
+        button_addRestaurants = findViewById(R.id.button_addRestaurants);
+        button_addRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendYelpRequest("food");
             }
         });
 
-        button_clearRestaurants = findViewById(R.id.button_clearRestaurants);
+        button_clearRestaurants = findViewById(R.id.button_resetRestaurants);
         button_clearRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,8 +132,6 @@ public class PartyHomeActivity extends AppCompatActivity {
                 startActivity(goToSearchActivity);
             }
         });
-
-        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
     }
 
     /**
