@@ -9,12 +9,14 @@
         android:id="@+id/textView_restaurantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:text="Restaurant 1"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView_stars"
-        app:layout_constraintStart_toStartOf="@+id/imageView_stars"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -50,35 +52,15 @@
         app:layout_constraintStart_toEndOf="@+id/textView_numberOfReviews"
         app:layout_constraintTop_toTopOf="@+id/textView_numberOfReviews" />
 
-    <TextView
-        android:id="@+id/textView_votes"
+    <Button
+        android:id="@+id/button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
-        android:textSize="36sp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton_downvote"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531" />
-
-    <ImageButton
-        android:id="@+id/imageButton_upvote"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/effect_ripple_upvote"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
-        app:layout_constraintEnd_toStartOf="@+id/textView_votes"
-        app:layout_constraintTop_toTopOf="@+id/textView_votes"
-        app:srcCompat="@drawable/upvote" />
-
-    <ImageButton
-        android:id="@+id/imageButton_downvote"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@drawable/effect_ripple_downvote"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_votes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView_votes"
-        app:srcCompat="@drawable/downvote" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

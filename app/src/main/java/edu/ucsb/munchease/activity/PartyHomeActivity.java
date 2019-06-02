@@ -1,14 +1,22 @@
 package edu.ucsb.munchease.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,19 +28,19 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
 import edu.ucsb.munchease.R;
-import edu.ucsb.munchease.data.InvalidJsonException;
 import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
-import edu.ucsb.munchease.data.RestaurantParser;
+import edu.ucsb.munchease.data.YelpInterface;
 import edu.ucsb.munchease.view.RestaurantAdapter;
 
 // TODO Temporary
-import edu.ucsb.munchease.data.DummyJsonRestaurants;
 
 public class PartyHomeActivity extends AppCompatActivity {
 
@@ -43,10 +51,15 @@ public class PartyHomeActivity extends AppCompatActivity {
     //The party
     private Party party;
 
-    //Visual components of the app
+    // Yelp Interface
+    private YelpInterface yelpInterface;
 
-    private Button button_addRandomRestaurant;
-    private Button button_clearRestaurants;
+    //Visual components of the app
+    private TextView textView_homeText;
+
+    private FloatingActionButton button_addRestaurants;
+    private FloatingActionButton button_clearRestaurants;
+    private FloatingActionButton button_startSearch;
 
     private RecyclerView recyclerView_restaurantList;
     private RecyclerView.Adapter mAdapter;
@@ -71,26 +84,38 @@ public class PartyHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        party = new Party();
-        //party.addRestaurant(new Restaurant("Local Restaurant 1", "5", 25, "$$", "1234 The Street")); //Test restaurant
+//        party = new Party();
+        initParty();
+
+        //Initialize Yelp api
+        yelpInterface = new YelpInterface();
 
         setUpFirebase();
-        populateDatabase();
         setUpRestaurantList();
-        //retrievePartyFromDatabase(); //Apparently do not actually need this with the listener set up, but might change
-        //setUpDatabaseListener();
-        //getRestaurantsFromDB();
         setUpRestaurantsListener();
 
-        button_addRandomRestaurant = findViewById(R.id.button_addRandomRestaurant);
-        button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
+        initComponents();
+
+        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
+    }
+
+    /**
+     * Assigns all of the visual components of the app
+     */
+    private void initComponents() {
+        textView_homeText = findViewById(R.id.textView_homeText);
+        textView_homeText.setText("Party " + party.getPartyID());
+
+        // Does not actually add random restaurant
+        button_addRestaurants = findViewById(R.id.button_addRestaurants);
+        button_addRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addRestaurantToParty(generateRandomRestaurant());
+                sendYelpRequest("food");
             }
         });
 
-        button_clearRestaurants = findViewById(R.id.button_clearRestaurants);
+        button_clearRestaurants = findViewById(R.id.button_resetRestaurants);
         button_clearRestaurants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +125,16 @@ public class PartyHomeActivity extends AppCompatActivity {
             }
         });
 
-        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
+        button_startSearch = findViewById(R.id.button_startSearch);
+        button_startSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("button", "Start search button clicked");
+                Intent goToSearchActivity = new Intent(getApplicationContext(), SearchActivity.class);
+                goToSearchActivity.putExtra("partyID", party.getPartyID());
+                startActivity(goToSearchActivity);
+            }
+        });
     }
 
     /**
@@ -115,7 +149,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         //Specify an adapter
-        mAdapter = new RestaurantAdapter(party.getRestaurants());
+        mAdapter = new RestaurantAdapter(party.getRestaurants(), party.getPartyID());
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 
@@ -124,114 +158,15 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
-        partyDocRef = db.collection("parties").document("123456");
+        partyDocRef = db.collection("parties").document(party.getPartyID());
         restaurantsRef = partyDocRef.collection("restaurants");
+
+        partyDocRef.set(party);
     }
 
     /**
-     * Adds dummy data to the database
+     * Sets up the list so it will listen for any changes in the database
      */
-    private void populateDatabase() {
-        Party party2 = new Party();
-        try {
-            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample));
-            party2.addRestaurant(RestaurantParser.parseRestaurantFromYelpResponse(DummyJsonRestaurants.completeExample2));
-        } catch(InvalidJsonException e) { } // Do nothing
-
-        // Add a new document with a generated ID
-        db.collection("parties").document(party2.getPartyID()).set(party2);
-
-        for(Restaurant r : party2.getRestaurants()) {
-            restaurantsRef.document(r.getName()).set(r);
-        }
-    }
-
-    /**
-     * Gets the latest information from the database and updates the RecyclerView adapter to reflect any changes
-     * Currently does not properly support updating on data changes, and will just add to the end of the list instead of updating items
-     */
-    /*private void retrievePartyFromDatabase() {
-        partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
-
-                        Party tempParty = document.toObject(Party.class);
-
-                        int startPosition = party.getRestaurants().size();
-
-                        for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
-                            party.addRestaurant(tempParty.getRestaurants().get(i));
-                        }
-
-                        mAdapter.notifyItemRangeInserted(startPosition, party.getRestaurants().size());
-                    } else {
-                        Log.d("---RETRIEVE---", "No such document");
-                    }
-                } else {
-                    Log.d("---RETRIEVE---", "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    private void setUpDatabaseListener() {
-        partyDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                String TAG = "---LISTENER---";
-
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    Log.d(TAG, "Current data: " + documentSnapshot.getData());
-
-                    Party tempParty = documentSnapshot.toObject(Party.class);
-
-                    party.setMembers(tempParty.getMembers());
-
-                    *//*party.clearRestaurants();
-
-                    int startPosition = party.getRestaurants().size();
-
-                    for(int i = startPosition; i < tempParty.getRestaurants().size(); i++) {
-                        party.addRestaurant(tempParty.getRestaurants().get(i));
-                    }
-
-
-                    mAdapter.notifyDataSetChanged();*//*
-                } else {
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
-    }*/
-
-    /*private void getRestaurantsFromDB() {
-        restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                String TAG = "---restaurants---";
-                if (task.isSuccessful()) {
-                    party.clearRestaurants();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d(TAG, document.getId() + " => " + document.getData());
-                        party.addRestaurant(document.toObject(Restaurant.class));
-                    }
-                    mAdapter.notifyDataSetChanged();
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }*/
-
     private void setUpRestaurantsListener() {
         restaurantsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -262,30 +197,55 @@ public class PartyHomeActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Generates a random restaurant. Currently returns null
-     * @return a null pointer (TODO)
-     */
-    private Restaurant generateRandomRestaurant() {
-        Random random = new Random();
+    private void initParty() {
+        String sharePartyID = "123-456";
 
-        String restaurantName = "DB Restaurant " + random.nextInt(100);
-        String rating = random.nextInt(5) + 1 + "";
-        int numberOfReviews = random.nextInt(500);
-
-        String price = "";
-        int priceNum = random.nextInt(3) + 1;
-        for(int i = 0; i < priceNum; i++) {
-            price += "$";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            sharePartyID = extras.getString("sharePartyID");
         }
 
-        int addressNum = random.nextInt(10000);
-        String address = addressNum + " The Street";
+        party = new Party(sharePartyID);
+    }
 
-        // TODO Currently returns null
-        //Restaurant r = new Restaurant(restaurantName, rating, numberOfReviews, price, address);
-        //return r;
-        return null;
+    /**
+     * Sends a Yelp API request with the term passed as a parameter
+     * @param searchTerm The term to pass as the Yelp search term
+     */
+    private void sendYelpRequest(String searchTerm) {
+        // Create request queue and perform search with no parameters
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = YelpInterface.yelpRadiusURL(searchTerm);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        // Add response restaurants to party
+                        ArrayList<Restaurant> localRestaurants = YelpInterface.getRestaurantsFromJsonArray(response);
+
+                        for(Restaurant r : localRestaurants) {
+                            addRestaurantToParty(r);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle error
+            }
+        }) {
+            // Set Yelp authorization header
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + YelpInterface.getApiKey());
+                return headers;
+            }
+        };
+        // Add request to queue
+        queue.add(stringRequest);
     }
 
     /**
@@ -317,6 +277,9 @@ public class PartyHomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Clears the restaurants from the party
+     */
     private void clearRestaurants() {
         restaurantsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

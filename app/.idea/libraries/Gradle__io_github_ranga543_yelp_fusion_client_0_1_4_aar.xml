@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: io.github.ranga543:yelp-fusion-client:0.1.4@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/27e623d5b72fad63d24f875eaa7ca60e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/27e623d5b72fad63d24f875eaa7ca60e/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.ranga543/yelp-fusion-client/0.1.4/f9d7cbdac3c4947a5f83994e367ac8c709af05c1/yelp-fusion-client-0.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

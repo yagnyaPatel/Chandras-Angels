@@ -18,6 +18,12 @@ public class Party {
         partyID = "123456";
     }
 
+    public Party(String partyID) {
+        this.partyID = partyID;
+        restaurants = new ArrayList<>();
+        members = 1;
+    }
+
     /**
      * Creates a new party using the specified parameters
      * @param restaurants The ArrayList of Restaurants that are available to be voted on

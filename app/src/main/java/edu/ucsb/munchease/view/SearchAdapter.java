@@ -7,13 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -21,14 +23,13 @@ import java.util.ArrayList;
 import edu.ucsb.munchease.R;
 import edu.ucsb.munchease.data.Restaurant;
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.RestaurantViewHolder> {
 
     private ArrayList<Restaurant> restaurants;
-    public static int numberOfVotes = 3;
     private static String partyID;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RestaurantAdapter(ArrayList<Restaurant> restaurants, String partyID) {
+    public SearchAdapter(ArrayList<Restaurant> restaurants, String partyID) {
         this.restaurants = restaurants;
         this.partyID = partyID;
     }
@@ -48,56 +49,27 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         private TextView textView_restaurantName;
         final public static int RESTAURANT_NAME_MAX_LENGTH = 24;
 
-        //Voting components
-        private ImageButton button_upvote, button_downvote;
-        private TextView textView_votes;
-
         //Rating components
         private ImageView imageView_stars;
         private TextView textView_numberOfReviews;
         private TextView textView_price;
 
+        //Add button
+        private Button button_add;
+
         public RestaurantViewHolder(View v) {
             super(v);
 
-            setUpFirebase();
-
             textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
-
-            textView_votes = v.findViewById(R.id.textView_votes);
 
             imageView_stars = v.findViewById(R.id.imageView_stars);
             textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
             textView_price = v.findViewById(R.id.textView_price);
 
-            button_upvote = v.findViewById(R.id.imageButton_upvote);
-            button_downvote = v.findViewById(R.id.imageButton_downvote);
+            button_add = v.findViewById(R.id.button_add);
 
-            button_upvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(RestaurantAdapter.numberOfVotes > 0) {
-                        Log.d("---ADAPTER---", "Upvote button clicked for " + restaurant.getName());
-                        restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(1));
-                        RestaurantAdapter.numberOfVotes--;
-                    } else {
-                        Log.d("---ADAPTER---", "OUT OF VOTES - Upvote button clicked for " + restaurant.getName());
-                    }
-                }
-            });
-
-            button_downvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(RestaurantAdapter.numberOfVotes > 0) {
-                        Log.d("---ADAPTER---", "Downvote button clicked");
-                        restaurantsRef.document(restaurant.getName()).update("votes", FieldValue.increment(-1));
-                        RestaurantAdapter.numberOfVotes--;
-                    } else {
-                        Log.d("---ADAPTER---", "OUT OF VOTES - Upvote button clicked for " + restaurant.getName());
-                    }
-                }
-            });
+            setUpFirebase();
+            setUpAddButton();
         }
 
         /**
@@ -105,8 +77,42 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
          */
         private void setUpFirebase() {
             db = FirebaseFirestore.getInstance();
-            docRef = db.collection("parties").document(RestaurantAdapter.partyID);
+            docRef = db.collection("parties").document(SearchAdapter.partyID);
             restaurantsRef = docRef.collection("restaurants");
+        }
+
+        private void setUpAddButton() {
+            button_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addRestaurantToParty(restaurant);
+                }
+            });
+        }
+
+        /**
+         * Adds a restaurant to the DATABASE party and pushes it back to the database.  This means that it does NOT deal with the local party at all!!!
+         * @param r The restaurant to be added to the party
+         */
+        private void addRestaurantToParty(final Restaurant r) {
+            DocumentReference newRestaurantRef = restaurantsRef.document(r.getName());
+
+            newRestaurantRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("---RETRIEVE---", "Restaurant already exists: " + document.getData());
+                        } else {
+                            Log.d("---RETRIEVE---", "No such document - creating now");
+                            restaurantsRef.document(r.getName()).set(r);
+                        }
+                    } else {
+                        Log.d("---RETRIEVE---", "get failed with ", task.getException());
+                    }
+                }
+            });
         }
 
         private void setRestaurant(Restaurant r) {
@@ -119,7 +125,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     public RestaurantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_restaurant_list_item, parent, false);
+                .inflate(R.layout.activity_restaurant_list_suggestion, parent, false);
         return new RestaurantViewHolder(v);
     }
 
@@ -139,7 +145,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
         holder.textView_numberOfReviews.setText(restaurant.getReviewCount() + " reviews");
         holder.textView_price.setText(restaurant.getPrice());
-        holder.textView_votes.setText(restaurant.getVotes() + "");
         holder.imageView_stars.setImageResource(ratingImageHelper(restaurant.getRating()));
     }
 
