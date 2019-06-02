@@ -23,7 +23,6 @@ public class SharePartyActivity extends AppCompatActivity {
 
         //Make "NEXT" button (button_next) take you to the Party Home Activity (PartyHomeActivity)
         setUpButtonNext();
-
         setUpSharePartyCode();
     }
 
@@ -42,7 +41,7 @@ public class SharePartyActivity extends AppCompatActivity {
         textView_sharePartyCode = findViewById(R.id.textView_sharePartyCode);
 
         Random random = new Random();
-        int partyCode = random.nextInt(999999);
+        int partyCode = random.nextInt(899999) + 100000; //Generate random numbers between 100-000 and 999-999
 
         textView_sharePartyCode.setText(partyCode + "");
     }
