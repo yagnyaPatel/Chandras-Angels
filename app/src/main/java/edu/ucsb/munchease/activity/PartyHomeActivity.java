@@ -134,7 +134,6 @@ public class PartyHomeActivity extends AppCompatActivity {
                 sendYelpRequest(data.getStringExtra("query"));
             }
         }
-
     }
 
     /**
