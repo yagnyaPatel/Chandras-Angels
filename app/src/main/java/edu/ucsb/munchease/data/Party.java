@@ -20,6 +20,8 @@ public class Party {
 
     public Party(String partyID) {
         this.partyID = partyID;
+        restaurants = new ArrayList<>();
+        members = 1;
     }
 
     /**

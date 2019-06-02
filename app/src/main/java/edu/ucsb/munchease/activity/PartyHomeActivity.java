@@ -84,7 +84,8 @@ public class PartyHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
-        party = new Party();
+//        party = new Party();
+        initParty();
 
         //Initialize Yelp api
         yelpInterface = new YelpInterface();
@@ -156,8 +157,10 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     private void setUpFirebase() {
         db = FirebaseFirestore.getInstance();
-        partyDocRef = db.collection("parties").document("123456");
+        partyDocRef = db.collection("parties").document(party.getPartyID());
         restaurantsRef = partyDocRef.collection("restaurants");
+
+        partyDocRef.set(party);
     }
 
     /**
@@ -191,6 +194,17 @@ public class PartyHomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void initParty() {
+        String sharePartyID = "123-456";
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            sharePartyID = extras.getString("sharePartyID");
+        }
+
+        party = new Party(sharePartyID);
     }
 
     /**
