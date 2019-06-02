@@ -99,7 +99,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         button_addRandomRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendYelpRequest(null);
+                sendYelpRequest("food");
             }
         });
 
