@@ -35,6 +35,8 @@
         android:layout_marginRight="8dp"
         android:text="Join"
         android:textSize="36sp"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@color/design_default_color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
