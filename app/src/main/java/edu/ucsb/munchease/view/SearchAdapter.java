@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 import edu.ucsb.munchease.R;
-import edu.ucsb.munchease.data.Party;
 import edu.ucsb.munchease.data.Restaurant;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.RestaurantViewHolder> {
@@ -93,22 +92,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
          * @param r The restaurant to be added to the party
          */
         private void addRestaurantToParty(final Restaurant r) {
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            DocumentReference newRestaurantRef = restaurantsRef.document(r.getName());
+
+            newRestaurantRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Log.d("---RETRIEVE---", "DocumentSnapshot data: " + document.getData());
-
-                            Party tempParty = document.toObject(Party.class);
-                            tempParty.addRestaurant(r);
-
-                            db.collection("parties").document(tempParty.getPartyID()).set(tempParty);
-
-                            restaurantsRef.document(r.getName()).set(r);
+                            Log.d("---RETRIEVE---", "Restaurant already exists: " + document.getData());
                         } else {
-                            Log.d("---RETRIEVE---", "No such document");
+                            Log.d("---RETRIEVE---", "No such document - creating now");
+                            restaurantsRef.document(r.getName()).set(r);
                         }
                     } else {
                         Log.d("---RETRIEVE---", "get failed with ", task.getException());
