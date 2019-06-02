@@ -131,6 +131,7 @@ public class PartyHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("button", "Start search button clicked");
                 Intent goToSearchActivity = new Intent(getApplicationContext(), SearchActivity.class);
+                goToSearchActivity.putExtra("partyID", party.getPartyID());
                 startActivity(goToSearchActivity);
             }
         });

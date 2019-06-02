@@ -59,7 +59,14 @@ public class SearchActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView_searchSuggestions.setLayoutManager(layoutManager);
 
-        mAdapter = new SearchAdapter(restaurants);
+        String partyID = "123-456";
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            partyID = extras.getString("partyID");
+        }
+
+        mAdapter = new SearchAdapter(restaurants, partyID);
         recyclerView_searchSuggestions.setAdapter(mAdapter);
     }
 

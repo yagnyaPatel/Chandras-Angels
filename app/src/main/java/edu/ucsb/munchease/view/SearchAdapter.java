@@ -26,10 +26,12 @@ import edu.ucsb.munchease.data.Restaurant;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.RestaurantViewHolder> {
 
     private ArrayList<Restaurant> restaurants;
+    private static String partyID;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SearchAdapter(ArrayList<Restaurant> restaurants) {
+    public SearchAdapter(ArrayList<Restaurant> restaurants, String partyID) {
         this.restaurants = restaurants;
+        this.partyID = partyID;
     }
 
     // Provide a reference to the views for each data item
@@ -74,7 +76,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
          */
         private void setUpFirebase() {
             db = FirebaseFirestore.getInstance();
-            docRef = db.collection("parties").document("123456");
+            docRef = db.collection("parties").document(SearchAdapter.partyID);
             restaurantsRef = docRef.collection("restaurants");
         }
 
