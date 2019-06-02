@@ -58,8 +58,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
         public RestaurantViewHolder(View v) {
             super(v);
 
-            setUpFirebase();
-
             textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
 
             imageView_stars = v.findViewById(R.id.imageView_stars);
@@ -67,6 +65,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
             textView_price = v.findViewById(R.id.textView_price);
 
             button_add = v.findViewById(R.id.button_add);
+
+            setUpFirebase();
+            setUpAddButton();
         }
 
         /**
@@ -82,7 +83,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
             button_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    addRestaurantToParty(restaurant);
                 }
             });
         }
@@ -92,7 +93,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
          * @param r The restaurant to be added to the party
          */
         private void addRestaurantToParty(final Restaurant r) {
-            partyDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
