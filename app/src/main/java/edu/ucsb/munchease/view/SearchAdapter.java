@@ -47,6 +47,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
 
         //Basic information
         private TextView textView_restaurantName;
+        final public static int RESTAURANT_NAME_MAX_LENGTH = 24;
 
         //Rating components
         private ImageView imageView_stars;
@@ -135,7 +136,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.Restaurant
 
         holder.setRestaurant(restaurant);
 
-        holder.textView_restaurantName.setText(restaurant.getName());
+        if(restaurant.getName().length() > RestaurantViewHolder.RESTAURANT_NAME_MAX_LENGTH) {
+            String shortenedText = restaurant.getName().substring(0, RestaurantViewHolder.RESTAURANT_NAME_MAX_LENGTH - 5) + "...";
+            holder.textView_restaurantName.setText(shortenedText);
+        } else {
+            holder.textView_restaurantName.setText(restaurant.getName());
+        }
+
         holder.textView_numberOfReviews.setText(restaurant.getReviewCount() + " reviews");
         holder.textView_price.setText(restaurant.getPrice());
         holder.imageView_stars.setImageResource(ratingImageHelper(restaurant.getRating()));
