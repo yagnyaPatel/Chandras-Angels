@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -52,7 +54,7 @@ public class JoinPartyActivity extends AppCompatActivity {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String partyID = editText_joinPartyID.getText().subSequence(0,3) + "-" + editText_joinPartyID.getText().subSequence(3,6);
+                String partyID = editText_joinPartyID.getText().toString();
                 try {
                     joinParty(partyID);
                 } catch(IllegalArgumentException e) {
@@ -67,6 +69,7 @@ public class JoinPartyActivity extends AppCompatActivity {
         editText_joinPartyID = findViewById(R.id.editText_joinPartyID);
 
         editText_joinPartyID.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -74,7 +77,16 @@ public class JoinPartyActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().length() == MunchEaseValues.PARTY_ID_LENGTH) {
+
+                if (count == 1) {
+                    // auto insert dashes while user typing their ssn
+                    if (start == 2) {
+                        editText_joinPartyID.setText(editText_joinPartyID.getText() + "-");
+                        editText_joinPartyID.setSelection(editText_joinPartyID.getText().length());
+                    }
+                }
+
+                if(s.toString().length() == MunchEaseValues.PARTY_ID_LENGTH + 1) {
                     button_next.setEnabled(true);
                 } else {
                     button_next.setEnabled(false);
@@ -95,13 +107,14 @@ public class JoinPartyActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("---RETRIEVE---", "Party already exists: " + document.getData());
                         Intent goToPartyHomeActivity = new Intent(getApplicationContext(), PartyHomeActivity.class);
                         goToPartyHomeActivity.putExtra("sharePartyID", partyID);
                         startActivity(goToPartyHomeActivity);
 
                     } else {
-                        Log.d("---RETRIEVE---", "No such document - creating now");
+                        Toast toast = Toast.makeText(getApplicationContext(), "Party does not exist", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP, 0, 32);
+                        toast.show();
                     }
                 } else {
                     Log.d("---RETRIEVE---", "get failed with ", task.getException());

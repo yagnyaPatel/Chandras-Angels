@@ -1,5 +1,7 @@
 package edu.ucsb.munchease.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -61,17 +63,15 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             super(v);
 
             setUpFirebase();
+            initComponents(v);
 
-            textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
-
-            textView_votes = v.findViewById(R.id.textView_votes);
-
-            imageView_stars = v.findViewById(R.id.imageView_stars);
-            textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
-            textView_price = v.findViewById(R.id.textView_price);
-
-            button_upvote = v.findViewById(R.id.imageButton_upvote);
-            button_downvote = v.findViewById(R.id.imageButton_downvote);
+            textView_restaurantName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(restaurant.getUrl()));
+                    v.getContext().startActivity(i);
+                }
+            });
 
             button_upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,6 +107,18 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             db = FirebaseFirestore.getInstance();
             docRef = db.collection("parties").document(RestaurantAdapter.partyID);
             restaurantsRef = docRef.collection("restaurants");
+        }
+
+        private void initComponents(View v) {
+            textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
+            textView_votes = v.findViewById(R.id.textView_votes);
+
+            imageView_stars = v.findViewById(R.id.imageView_stars);
+            textView_numberOfReviews = v.findViewById(R.id.textView_numberOfReviews);
+            textView_price = v.findViewById(R.id.textView_price);
+
+            button_upvote = v.findViewById(R.id.imageButton_upvote);
+            button_downvote = v.findViewById(R.id.imageButton_downvote);
         }
 
         private void setRestaurant(Restaurant r) {

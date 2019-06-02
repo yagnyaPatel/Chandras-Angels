@@ -32,6 +32,7 @@ public class PartyUnitTests {
         party1 = new Party();
 
         ArrayList<Restaurant> list = new ArrayList<>();
+        list.add(restaurant1);
         party2 = new Party(list, 10, "555555");
 
     }

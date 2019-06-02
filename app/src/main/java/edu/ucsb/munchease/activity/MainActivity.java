@@ -6,33 +6,37 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import edu.ucsb.munchease.R;
-
-import com.google.firebase.auth.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import edu.ucsb.munchease.R;
 
 // TODO Fix duplicate toasts bug
 
 public class MainActivity extends AppCompatActivity {
 
-    // Not sure if will need
-    // private FirebaseAuth mAuth;
+    private ImageView imageView_logoMain;
+    private Button button_createParty;
+    private Button button_joinParty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imageView_logoMain = findViewById(R.id.imageView_logoMain);
+
         //------------------------------------------------------------------
         // *** BUTTON CONFIGURATION ***
         //------------------------------------------------------------------
 
         //Make "CREATE" button (button_createParty) take you to the Share Party Activity (SharePartyActivity)
-        Button button_createParty = findViewById(R.id.button_createParty);
+        button_createParty = findViewById(R.id.button_createParty);
         button_createParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button button_joinParty = findViewById(R.id.button_joinParty);
+        button_joinParty = findViewById(R.id.button_joinParty);
         button_joinParty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

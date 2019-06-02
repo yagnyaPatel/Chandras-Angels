@@ -79,8 +79,6 @@ public class PartyHomeActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("*DEBUG*", "*** GOT TO THE START OF ONCREATE() ***");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_party_home);
 
@@ -95,8 +93,6 @@ public class PartyHomeActivity extends AppCompatActivity {
         setUpRestaurantsListener();
 
         initComponents();
-
-        Log.d("*DEBUG*", "*** GOT TO THE END OF ONCREATE() ***");
     }
 
     /**
@@ -129,7 +125,6 @@ public class PartyHomeActivity extends AppCompatActivity {
         button_startSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("button", "Start search button clicked");
                 Intent goToSearchActivity = new Intent(getApplicationContext(), SearchActivity.class);
                 goToSearchActivity.putExtra("partyID", party.getPartyID());
                 startActivity(goToSearchActivity);
