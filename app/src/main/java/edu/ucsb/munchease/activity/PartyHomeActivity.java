@@ -149,7 +149,7 @@ public class PartyHomeActivity extends AppCompatActivity {
         recyclerView_restaurantList.setLayoutManager(layoutManager);
 
         //Specify an adapter
-        mAdapter = new RestaurantAdapter(party.getRestaurants());
+        mAdapter = new RestaurantAdapter(party.getRestaurants(), party.getPartyID());
         recyclerView_restaurantList.setAdapter(mAdapter);
     }
 

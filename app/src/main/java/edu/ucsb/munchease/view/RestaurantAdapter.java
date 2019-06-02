@@ -25,10 +25,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     private ArrayList<Restaurant> restaurants;
     public static int numberOfVotes = 3;
+    private static String partyID;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RestaurantAdapter(ArrayList<Restaurant> restaurants) {
+    public RestaurantAdapter(ArrayList<Restaurant> restaurants, String partyID) {
         this.restaurants = restaurants;
+        this.partyID = partyID;
     }
 
     // Provide a reference to the views for each data item
@@ -103,7 +105,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
          */
         private void setUpFirebase() {
             db = FirebaseFirestore.getInstance();
-            docRef = db.collection("parties").document("123456");
+            docRef = db.collection("parties").document(RestaurantAdapter.partyID);
             restaurantsRef = docRef.collection("restaurants");
         }
 
