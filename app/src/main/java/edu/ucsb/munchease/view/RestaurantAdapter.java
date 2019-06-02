@@ -1,5 +1,7 @@
 package edu.ucsb.munchease.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +65,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             setUpFirebase();
 
             textView_restaurantName = v.findViewById(R.id.textView_restaurantName);
+
+            textView_restaurantName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(restaurant.getUrl()));
+                    v.getContext().startActivity(i);
+                }
+            });
 
             textView_votes = v.findViewById(R.id.textView_votes);
 
