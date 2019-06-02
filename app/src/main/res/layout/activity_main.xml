@@ -35,7 +35,7 @@
         android:layout_marginRight="8dp"
         android:text="Join"
         android:textSize="36sp"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@android:color/darker_gray"
         android:textColor="@color/design_default_color_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button_createParty" />
 
     <ImageView
-        android:id="@+id/imageView_logo"
+        android:id="@+id/imageView_logoMain"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

@@ -54,7 +54,7 @@ public class JoinPartyActivity extends AppCompatActivity {
         button_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String partyID = editText_joinPartyID.getText().subSequence(0,3) + "-" + editText_joinPartyID.getText().subSequence(3,6);
+                String partyID = editText_joinPartyID.getText().toString();
                 try {
                     joinParty(partyID);
                 } catch(IllegalArgumentException e) {
@@ -69,6 +69,7 @@ public class JoinPartyActivity extends AppCompatActivity {
         editText_joinPartyID = findViewById(R.id.editText_joinPartyID);
 
         editText_joinPartyID.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -76,7 +77,16 @@ public class JoinPartyActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().length() == MunchEaseValues.PARTY_ID_LENGTH) {
+
+                if (count == 1) {
+                    // auto insert dashes while user typing their ssn
+                    if (start == 2) {
+                        editText_joinPartyID.setText(editText_joinPartyID.getText() + "-");
+                        editText_joinPartyID.setSelection(editText_joinPartyID.getText().length());
+                    }
+                }
+
+                if(s.toString().length() == MunchEaseValues.PARTY_ID_LENGTH + 1) {
                     button_next.setEnabled(true);
                 } else {
                     button_next.setEnabled(false);
