@@ -65,10 +65,10 @@ public class PartyUnitTests {
         assertEquals(1, party1.getMembers());
     }
 
-    @Test
-    public void getRestaurants_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
+//    @Test
+//    public void getRestaurants_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
 
     @Test
     public void getRestaurants_isCorrect_2() {
