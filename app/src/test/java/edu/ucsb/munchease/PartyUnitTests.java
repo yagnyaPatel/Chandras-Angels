@@ -70,13 +70,13 @@ public class PartyUnitTests {
 //        assertEquals(restaurant1, party2.getRestaurants().get(0));
 //    }
 
-    @Test
-    public void getRestaurants_isCorrect_2() {
-        ArrayList<Restaurant> list = new ArrayList<>();
-        list.add(restaurant1);
-
-        assertEquals(list, party2.getRestaurants());
-    }
+//    @Test
+//    public void getRestaurants_isCorrect_2() {
+//        ArrayList<Restaurant> list = new ArrayList<>();
+//        list.add(restaurant1);
+//
+//        assertEquals(list, party2.getRestaurants());
+//    }
 
 //    Mutators
     @Test
