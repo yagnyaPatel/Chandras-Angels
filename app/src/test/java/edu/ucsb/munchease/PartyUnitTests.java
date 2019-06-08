@@ -87,28 +87,28 @@ public class PartyUnitTests {
 //        assertEquals(restaurant1, party2.getRestaurants().get(0));
 //    }
 
-    @Test
-    public void setMembers_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
+//    @Test
+//    public void setMembers_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
 
-    @Test
-    public void addMember_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
-
-    @Test
-    public void addRestaurant_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
-
-    @Test
-    public void clearRestaurants_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
-
-    @Test
-    public void sortRestaurants_isCorrect_1() {
-        assertEquals(restaurant1, party2.getRestaurants().get(0));
-    }
+//    @Test
+//    public void addMember_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
+//
+//    @Test
+//    public void addRestaurant_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
+//
+//    @Test
+//    public void clearRestaurants_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
+//
+//    @Test
+//    public void sortRestaurants_isCorrect_1() {
+//        assertEquals(restaurant1, party2.getRestaurants().get(0));
+//    }
 }
